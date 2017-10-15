@@ -1,0 +1,11 @@
+@import 'common';
+
+.inventory {
+
+	background: $background;
+
+	&__items {
+		display: flex;
+		flex-wrap: wrap;
+	}
+}
