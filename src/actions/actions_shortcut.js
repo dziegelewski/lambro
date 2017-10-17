@@ -8,6 +8,7 @@ export const MONEY_CHANGE = 'MONEY_CHANGE';
 export const RESET_GAME = 'RESET_GAME';
 export const HIRE_MERCENARY = 'HIRE_MERCENARY';
 export const NEXT_ROUND = 'NEXT_ROUND';
+export const REGENERATE = 'REGENERATE';
 
 export function craftItem(options) {
 	return {
@@ -75,5 +76,12 @@ export function resetGame() {
 export function nextRound() {
 	return {
 		type: NEXT_ROUND
+	}
+}
+
+export function regenerate(amount) {
+	return {
+		type: REGENERATE,
+		payload: amount
 	}
 }

@@ -1,70 +1,61 @@
-import { FORGE_STARTING_SKILL, melee, shield, potion } from './consts';
+import { FORGE_STARTING_MASTERY, wearable, potion } from './consts';
+import { Wearable, Potion } from './Item';
 import random from 'lodash/random';
 import times from 'lodash/times';
 
 class Forge {
 
-	constructor(skill) {
-		this.lvl = skill;
-		this.nextItemId = 0;
+	constructor(craftedByFar) {
+		this.craftedByFar = craftedByFar;
 		this.buffs = [];
 	}
 
-	startFromScratch() {
-		// this = new Forge(FORGE_STARTING_SKILL)
+	craft(itemType, options) {
+		this.craftedByFar ++;
+		itemType = itemType || this.whatWillBeCrafted();
+		const id = this.nextItemId;
+		let stat;
+
+
+		
+		if (itemType === potion) {
+			stat = this.calculatePotionStat();
+			return new Potion(id, stat, options);
+		} else {
+			stat = this.calculateWearableStat();
+			return new Wearable(id, stat, options);
+		}
 	}
 
-	buff(buffs = {}) {
-		Object.assign(this.buffs, buffs)
+	craftMany(howMany) {
+		return times(howMany, this.craft.bind(this));
 	}
 
-	get skill() {
-		return Math.floor(this.lvl)
+
+	willSomethingBeCrafted() {
+		return random(1,3) === 1;
 	}
 
-	upgrade() {
-		this.lvl += 0.05;
+	whatWillBeCrafted() {
+		return random(1,3) === 1 ? potion : wearable;
 	}
 
-	grantRank(stat) {
-		return Math.floor(stat/4.5);
+	calculatePotionStat() {
+		return this.mastery * 15
 	}
 
-	brew(options = {}) {
-		this.upgrade();
-		return Object.assign({
-			id: this.nextItemId++,
-			type: potion,
-			stat: this.skill * 15,
-			rank: 0
-		}, options)
+	calculateWearableStat() {
+		return Math.floor((random(10,30) * this.mastery)/10);
 	}
 
-	craft(options = {}) {
-		this.upgrade();
-		const item = Object.assign({
-			id: this.nextItemId++,
-			isUsed: false,
-			isWearable: true,
-			type: random(0,2) ? melee : shield,
-			stat: Math.floor((random(10,30) * this.skill)/10)
-		}, options)
-
-		this.buffs.forEach(({parameter, value}) => {
-			if (item.hasOwnProperty(parameter)) {
-				item[parameter] += value;
-			}
-		})
-
-		item.rank = options.rank || this.grantRank(item.stat);
-		item.price = Math.floor(Math.pow(item.stat, 1.5));
-
-		return item;
+	get mastery() {
+		return Math.ceil(this.craftedByFar/5)
 	}
 
-	craftMany(number) {
-		return times(number, this.craft.bind(this));
+	get nextItemId() {
+		return this.craftedByFar;
 	}
+
 }
 
-export default new Forge(FORGE_STARTING_SKILL)
+export default new Forge(FORGE_STARTING_MASTERY)

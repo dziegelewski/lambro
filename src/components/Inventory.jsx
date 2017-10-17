@@ -66,9 +66,9 @@ class Inventory extends Component {
 	}
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({ game: { inventory } }) {
 	return {
-			content: state.inventory
+			content: inventory
 	}
 }
 

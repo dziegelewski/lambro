@@ -1,19 +1,12 @@
+export const wearable = 'wearable';
 export const melee = 'melee';
 export const shield = 'shield';
 export const potion = 'potion';
 
 export const MAX_PACK = 24;
-export const FORGE_STARTING_SKILL = 1;
+export const FORGE_STARTING_MASTERY = 1;
 export const STARTING_MONEY = 100;
 
-
-export const NEW_PLAYER = {
-	health: 100,
-	attack: 1,
-	defense: 1,
-	exp: 0,
-	lvl: 1
-}
 
 export const MERCENARIES = [
 	{

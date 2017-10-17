@@ -9,14 +9,15 @@ import Lifebar from './Lifebar.jsx';
 
 class Stats extends Component {
 	render() {
-		const { life } = this.props;
+		const { life, isDead } = this.props;
 		return(
 			<div className="stats">
 				<h2>Lambro's stats</h2>
 				<p>Attack: {this.getUsedItem(melee).stat}</p>
 				<p>Defense: {this.getUsedItem(shield).stat}</p>
 
-				<Lifebar life={life} />
+				<Lifebar life={life} isDead={isDead} />
+				<h1>{life}</h1>
 
 			</div>
 		)
@@ -28,10 +29,11 @@ class Stats extends Component {
 
 }
 
-function mapStateToProps({life, inventory}) {
+function mapStateToProps({game: {life, isDead, inventory}}) {
 	return {
 		life,
-		inventory
+		inventory,
+		isDead
 	}
 }
 
