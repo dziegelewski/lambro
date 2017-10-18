@@ -1,38 +1,35 @@
 import { STRIKE, RESET_GAME, HEAL, HIRE_MERCENARY, MONEY_CHANGE, REGENERATE, REMOVE_ITEM, PUT_ITEM, PUT_ITEM_OFF, } from '../actions';
-import clone from 'lodash/clone' ;
-import { MERCENARIES } from '../consts';
+import { mercenaries } from '../consts';
 
 import Forge from '../Forge';
 
 
-const inventory = [
-	...Forge.craftMany(6),
-]
+function produceStartingState() {
+	return {
+		round: 1,
+		enemyMaxLife: 100,
+		enemyCurrentLife: 100,
+		enemyDamage: 1,
 
-const STARTING = {
-	round: 1,
-	enemyMaxLife: 100,
-	enemyCurrentLife: 100,
-	enemyDamage: 1,
-
-	money: 100,
+		money: 100,
 
 
-	life: 100,
-	maxLife: 100,
-	isDead: false,
+		life: 100,
+		maxLife: 100,
+		isDead: false,
 
-	attack: 1,
-	defense: 1,
-	exp: 0,
-	lvl: 1,
+		attack: 1,
+		defense: 1,
+		exp: 0,
+		lvl: 1,
 
-	mercenaries: [
-		...MERCENARIES
-	],
+		mercenaries,
+		mercenariesNumber: mercenaries.map(type => 0),
 
-	inventory
-
+		inventory: [
+			...Forge.craftMany(6),
+		]
+	}
 }
 
 
@@ -49,14 +46,17 @@ function nextRound(state) {
 }
 
 
-export default function(state = clone(STARTING), action) {
+export default function(state = produceStartingState(), action) {
+	let modifiedState = {...state};
+
 	switch(action.type) {
 
 		default:
 			return state;
 
 		case RESET_GAME:
-			return clone(STARTING);
+			Forge.startOver();
+			return produceStartingState();
 
 		case STRIKE:
 
@@ -113,12 +113,8 @@ export default function(state = clone(STARTING), action) {
 			}
 
 		case HIRE_MERCENARY:
-			let modifiedMercenaries = [...state.mercenaries];
-			modifiedMercenaries[action.payload].number ++;
-			return {
-				...state,
-				mercenaries: modifiedMercenaries
-			}
+			modifiedState.mercenariesNumber[action.payload] ++;
+			return modifiedState;
 
 
 		case REMOVE_ITEM:

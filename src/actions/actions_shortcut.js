@@ -38,7 +38,7 @@ export function putItemOff(item) {
 	}
 }
 
-export function strike(damage) {
+export function strike(damage = 5) {
 	return {
 		type: STRIKE,
 		payload: damage

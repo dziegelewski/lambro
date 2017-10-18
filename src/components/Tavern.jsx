@@ -14,8 +14,8 @@ class Tavern extends Component {
 			<div className="tavern">
 				Money: { this.props.money }
 				<ul className="tavern__rooms">
-					{this.props.mercenaries.map(mercenary => {
-						return <Mercenary key={mercenary.id} stats={mercenary} hire={this.hireMercenary.bind(this)} />
+					{this.props.mercenaries.map((mercenary, index) => {
+						return <Mercenary key={mercenary.id} number={this.props.mercenariesNumber[index]} stats={mercenary} hire={this.hireMercenary.bind(this)} />
 					})}
 				</ul>
 			</div>
@@ -30,8 +30,8 @@ class Tavern extends Component {
 	}
 }
 
-function mapStateToProps({game: {mercenaries, money}}) {
-	return {mercenaries, money}
+function mapStateToProps({game: {mercenaries, mercenariesNumber, money}}) {
+	return {mercenaries, mercenariesNumber, money}
 }
 
 function mapDispatchToProps(dispatch) {

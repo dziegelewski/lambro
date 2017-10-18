@@ -3,7 +3,7 @@ import React from 'react';
 require('styles/Mercenary.scss');
 
 export default function Mercenary(props) {
-	const { stats: { id, name, attack, price, number }, hire } = props;
+	const { stats: { id, name, attack, price }, number, hire } = props;
 	let image = require(`../images/mercenary${id}.svg`)
 
 	return (

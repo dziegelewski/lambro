@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { craftItem, strike, moneyChange } from '../actions';
 
-import random from 'lodash/random';
 require('styles/Enemy.scss');
 
 let castleImage = require('../images/castle.svg');
@@ -23,7 +22,7 @@ class Enemy extends Component {
 	}
 
 	strike() {
-		this.props.strike(random(1,9))
+		this.props.strike()
 	}
 }
 

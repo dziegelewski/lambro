@@ -6,7 +6,13 @@ import times from 'lodash/times';
 class Forge {
 
 	constructor(craftedByFar) {
+		this.initialCraftedByFar = craftedByFar;
 		this.craftedByFar = craftedByFar;
+		this.buffs = [];
+	}
+
+	startOver() {
+		this.craftedByFar = this.initialCraftedByFar;
 		this.buffs = [];
 	}
 
@@ -15,8 +21,6 @@ class Forge {
 		itemType = itemType || this.whatWillBeCrafted();
 		const id = this.nextItemId;
 		let stat;
-
-
 		
 		if (itemType === potion) {
 			stat = this.calculatePotionStat();
@@ -30,7 +34,6 @@ class Forge {
 	craftMany(howMany) {
 		return times(howMany, this.craft.bind(this));
 	}
-
 
 	willSomethingBeCrafted() {
 		return random(1,3) === 1;
