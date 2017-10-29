@@ -12,6 +12,7 @@ module.exports = function(config) {
     ],
     port: 8000,
     captureTimeout: 60000,
+    captureConsole: true,
     frameworks: [ 'mocha', 'chai' ],
     client: {
       mocha: {}

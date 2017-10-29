@@ -3,6 +3,8 @@ import { mercenaries } from '../consts';
 
 import Forge from '../Forge';
 
+window.Forge = Forge;
+
 
 function produceStartingState() {
 	return {
