@@ -29,7 +29,7 @@ class Stats extends Component {
 
 }
 
-function mapStateToProps({game: {life, isDead, inventory}}) {
+function mapStateToProps({life, isDead, inventory}) {
 	return {
 		life,
 		inventory,

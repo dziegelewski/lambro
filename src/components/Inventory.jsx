@@ -11,14 +11,14 @@ import { MAX_PACK, potion } from '../consts';
 class Inventory extends Component {
 	render() {
 
-		if (!this.props.content) {
+		if (!this.props.inventory) {
 			return <div/>
 		}
 
 		return (
 		<div className="inventory">
 			<h2>Lambro's inventory</h2>
-			<p>Filled space: { this.props.content.length } / { MAX_PACK }</p>
+			<p>Filled space: { this.props.inventory.length } / { MAX_PACK }</p>
 			<div className="inventory__items">
 					{ this.mapItems() }
 			</div>
@@ -27,9 +27,9 @@ class Inventory extends Component {
 	}
 
 	mapItems() {
-		const { content } = this.props;
+		const { inventory } = this.props;
 		return (
-			content.map(item => {
+			inventory.map(item => {
 			  return (
 			  	<Item
 				  	params={item} key={item.id}
@@ -66,10 +66,8 @@ class Inventory extends Component {
 	}
 }
 
-function mapStateToProps({ game: { inventory } }) {
-	return {
-			content: inventory
-	}
+function mapStateToProps({ inventory }) {
+	return {inventory}
 }
 
 function mapDispatchToProps(dispatch) {

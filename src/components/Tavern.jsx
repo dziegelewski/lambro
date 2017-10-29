@@ -30,7 +30,7 @@ class Tavern extends Component {
 	}
 }
 
-function mapStateToProps({game: {mercenaries, mercenariesNumber, money}}) {
+function mapStateToProps({mercenaries, mercenariesNumber, money}) {
 	return {mercenaries, mercenariesNumber, money}
 }
 

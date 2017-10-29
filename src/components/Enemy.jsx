@@ -26,8 +26,7 @@ class Enemy extends Component {
 	}
 }
 
-function mapStateToProps({ game }) {
-	const { enemyCurrentLife, enemyMaxLife } = game;
+function mapStateToProps({ enemyCurrentLife, enemyMaxLife }) {
 	return {enemyCurrentLife, enemyMaxLife}
 }
 

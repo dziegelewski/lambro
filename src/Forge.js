@@ -44,7 +44,7 @@ class Forge {
 	}
 
 	calculatePotionStat() {
-		return this.mastery * 15
+		return this.mastery * 15;
 	}
 
 	calculateWearableStat() {
