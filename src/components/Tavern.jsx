@@ -14,12 +14,23 @@ class Tavern extends Component {
 			<div className="tavern">
 				Money: { this.props.money }
 				<ul className="tavern__rooms">
-					{this.props.mercenaries.map((mercenary, index) => {
-						return <Mercenary key={mercenary.id} number={this.props.mercenariesNumber[index]} stats={mercenary} hire={this.hireMercenary.bind(this)} />
-					})}
+					{ this.mapMercenaries() }
 				</ul>
 			</div>
 		)
+	}
+
+	mapMercenaries() {
+		return this.props.mercenaries.map((mercenary, index) => {
+			return (
+				<Mercenary
+					key={mercenary.id}
+					number={this.props.mercenariesNumber[index]}
+					stats={mercenary}
+					hire={this.hireMercenary.bind(this)}
+				/>
+				)
+			})
 	}
 
 	hireMercenary(id, price) {

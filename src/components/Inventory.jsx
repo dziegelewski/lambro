@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { heal, removeItem, putItem, putItemOff, moneyChange } from '../actions';
+import { heal, removeItem, putItemOn, putItemOff, moneyChange } from '../actions';
 
 require('styles/Inventory.scss');
 
@@ -44,12 +44,12 @@ class Inventory extends Component {
 	useItem(item) {
 		if (item.type === potion) {
 			this.props.heal(item.stat);
-			this.props.removeItem(item.id);
+			this.props.removeItem(item);
 		}
 
 		if (item.isWearable) {
 			if (!item.isUsed) {
-				this.props.putItem(item);
+				this.props.putItemOn(item);
 			} else {
 				this.props.putItemOff(item)
 			}
@@ -58,7 +58,7 @@ class Inventory extends Component {
 
 	sellItem(item, e) {
 		e.preventDefault();
-		this.props.removeItem(item.id);
+		this.props.removeItem(item);
 
 		if (item.isWearable) {
 			this.props.moneyChange(item.stat)
@@ -71,7 +71,7 @@ function mapStateToProps({ inventory }) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({heal, removeItem, putItem, putItemOff, moneyChange}, dispatch)
+	return bindActionCreators({heal, removeItem, putItemOn, putItemOff, moneyChange}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Inventory);

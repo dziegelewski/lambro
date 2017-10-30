@@ -1,6 +1,6 @@
 export const CRAFT_ITEM = 'CRAFT_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
-export const PUT_ITEM = 'PUT_ITEM';
+export const PUT_ITEM_ON = 'PUT_ITEM_ON';
 export const PUT_ITEM_OFF = 'PUT_ITEM_OFF';
 export const STRIKE = 'STRIKE';
 export const HEAL = 'HEAL';
@@ -17,16 +17,16 @@ export function craftItem(options) {
 	}
 }
 
-export function removeItem(id) {
+export function removeItem(item) {
 	return {
 		type: REMOVE_ITEM,
-		payload: id
+		payload: item
 	}
 }
 
-export function putItem(item) {
+export function putItemOn(item) {
 	return {
-		type: PUT_ITEM,
+		type: PUT_ITEM_ON,
 		payload: item
 	}
 }
@@ -38,19 +38,32 @@ export function putItemOff(item) {
 	}
 }
 
-export function strike(damage = 5) {
+export function strike() {
 	return {
-		type: STRIKE,
-		payload: damage
+		type: STRIKE
 	}
 }
 
-export function heal(damage) {
+export function heal(healing) {
 	return {
 		type: HEAL,
-		payload: damage
+		payload: {
+			isRegenerating: false,
+			healing
+		}
 	}
 }
+
+export function regenerate(healing) {
+	return {
+		type: HEAL,
+		payload: {
+			isRegenerating: true,
+			healing
+		}
+	}
+}
+
 
 export function moneyChange(amount) {
 	return {
@@ -76,12 +89,5 @@ export function resetGame() {
 export function nextRound() {
 	return {
 		type: NEXT_ROUND
-	}
-}
-
-export function regenerate(amount) {
-	return {
-		type: REGENERATE,
-		payload: amount
 	}
 }

@@ -11,7 +11,7 @@ class Panel extends Component {
 
 		setInterval(function() {
 			props.regenerate(1)
-		}, 100)
+		}, 1000)
 	}
 	render() {
 		return (
