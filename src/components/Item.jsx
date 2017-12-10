@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 import range from 'lodash/range'
+
 require('styles/Item.scss');
+
 let icons = {
 	melee: range(0,6).map(index => require(`../images/melee${index}.svg` )),
 	shield: range(0,3).map(index => require(`../images/shield${index}.svg` )),
@@ -10,22 +12,28 @@ let icons = {
  
 class Item extends Component {
 	render() {
-		const { params, params: { type, rank, stat = 0, isUsed = false }, use, sell } = this.props;
+		const {
+			type,
+			rank,
+			stat = 0,
+			isUsed = false
+		} = this.props.params;
+
+		const figureClass = `item item--${type} ${isUsed ? 'item--used' : ''}`;
+		const captionClass = `item__caption item__caption--${type}`;
+		const pictureSrc = icons[type][rank];
+
 		return (
-			<figure
-				className={`item item--${type} ${isUsed ? 'item--used' : ''}`}
-				onClick={() => use(params)}
-				onContextMenu={(e) => sell(params, e)}
-			>
 
-				<img className="item__image" src={icons[type][rank]} alt="Item" />
+			<figure	className={figureClass}>
 
-				<figcaption className={`item__caption item__caption--${type}`}>
+				<img className="item__image" src={pictureSrc} alt="Item" />
+
+				<figcaption className={captionClass}>
 					{ stat }
 				</figcaption>
 
 			</figure>
-
 		)
 	}
 

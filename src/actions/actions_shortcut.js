@@ -1,7 +1,3 @@
-export const CRAFT_ITEM = 'CRAFT_ITEM';
-export const REMOVE_ITEM = 'REMOVE_ITEM';
-export const PUT_ITEM_ON = 'PUT_ITEM_ON';
-export const PUT_ITEM_OFF = 'PUT_ITEM_OFF';
 export const STRIKE = 'STRIKE';
 export const HEAL = 'HEAL';
 export const MONEY_CHANGE = 'MONEY_CHANGE';
@@ -9,34 +5,9 @@ export const RESET_GAME = 'RESET_GAME';
 export const HIRE_MERCENARY = 'HIRE_MERCENARY';
 export const NEXT_ROUND = 'NEXT_ROUND';
 export const REGENERATE = 'REGENERATE';
+export const USE_ITEM = 'USE_ITEM';
+export const SELL_ITEM = 'SELL_ITEM';
 
-export function craftItem(options) {
-	return {
-		type: CRAFT_ITEM,
-		payload: options
-	}
-}
-
-export function removeItem(item) {
-	return {
-		type: REMOVE_ITEM,
-		payload: item
-	}
-}
-
-export function putItemOn(item) {
-	return {
-		type: PUT_ITEM_ON,
-		payload: item
-	}
-}
-
-export function putItemOff(item) {
-	return {
-		type: PUT_ITEM_OFF,
-		payload: item
-	}
-}
 
 export function strike() {
 	return {
@@ -44,31 +15,14 @@ export function strike() {
 	}
 }
 
-export function heal(healing) {
-	return {
-		type: HEAL,
-		payload: {
-			isRegenerating: false,
-			healing
-		}
-	}
-}
 
 export function regenerate(healing) {
 	return {
-		type: HEAL,
+		type: REGENERATE,
 		payload: {
+			healing,
 			isRegenerating: true,
-			healing
 		}
-	}
-}
-
-
-export function moneyChange(amount) {
-	return {
-		type: MONEY_CHANGE,
-		payload: amount
 	}
 }
 
@@ -86,8 +40,18 @@ export function resetGame() {
 	}
 }
 
-export function nextRound() {
+
+
+export function useItem(item) {
 	return {
-		type: NEXT_ROUND
+		type: USE_ITEM,
+		payload: item
+	}
+}
+
+export function sellItem(item) {
+	return {
+		type: SELL_ITEM,
+		payload: item
 	}
 }

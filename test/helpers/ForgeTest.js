@@ -1,10 +1,10 @@
 import Forge from '../../src/Forge';
+
 describe('Forge', function () {
 
     describe('General', function() {
         it('should has gettable mastery level which is a number', function() {
-            console.log(Forge.mastery)
-            expect(typeof Forge.mastery).to.be.equal('number');
+            expect(Forge.mastery).to.be.a('number');
         })
     })
 
@@ -12,24 +12,24 @@ describe('Forge', function () {
         const craftedItem = Forge.craft();
 
         it('should be an object', function() {
-            expect(typeof craftedItem).to.be.equal('object');
+            expect(craftedItem).to.be.an('object');
         });
 
         it('should has isWearable property', function() {
-            expect(craftedItem.isWearable).to.not.be.equal(undefined);
+        	expect(craftedItem).to.has.property('isWearable');
         });
     })
 
     describe('craftMany()', function() {
         const numberOfItemsToCraft = 5;
-        const craftedManyItems = Forge.craftMany(numberOfItemsToCraft);
+        const craftedItems = Forge.craftMany(numberOfItemsToCraft);
 
         it('should return an array', function() {
-            expect(Array.isArray(craftedManyItems)).to.be.equal(true)
+          expect(craftedItems).to.be.an('array');
         })
 
         it('should return as many items, as set in it\'s argument', function() {
-            expect(craftedManyItems.length).to.be.equal(numberOfItemsToCraft);
+        	expect(craftedItems).to.have.lengthOf(numberOfItemsToCraft);
         })
     })
 
@@ -42,9 +42,10 @@ describe('Forge', function () {
             expect(Number.isInteger(currentNextItemId)).to.be.equal(true);
         })
 
-        it('should increase after crafting an item', function() {
+        it('should increase after crafting a new item', function() {
             Forge.craft();
-            expect(Forge.nextItemId).to.be.equal(expectedNextItemItAfterCraft)
+            const newItemId = Forge.nextItemId
+            expect(newItemId).to.be.equal(expectedNextItemItAfterCraft)
         })
     })
 });

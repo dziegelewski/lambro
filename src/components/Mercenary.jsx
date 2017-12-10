@@ -3,14 +3,17 @@ import React from 'react';
 require('styles/Mercenary.scss');
 
 export default function Mercenary(props) {
-	const { stats: { id, name, attack, price }, number, hire } = props;
-	let image = require(`../images/mercenary${id}.svg`)
+	const { number, stats: {	id, name, attack, cost	} } = props;
+
+	let portrait = require(`../images/mercenary${id}.svg`)
 
 	return (
-		<button className="mercenary" onClick={() => hire(id, price)}>
+		<button className="mercenary">
+
 			<h3>{ attack }</h3>
-			<p>{ number } ({ price }$)</p>
-				<img src={image} className="mercenary__portrait" alt={name} />
+			<p>{ number } ({ cost }$)</p>
+			<img src={ portrait } className="mercenary__portrait" alt={name} />
+
 		</button>
 	)
 }

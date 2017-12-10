@@ -1,5 +1,4 @@
-import { potion, melee, shield } from './consts';
-import sample from 'lodash/sample';
+import { potion } from './consts';
 
 export class Item {
 	constructor(id, stat, options) {
@@ -7,30 +6,24 @@ export class Item {
 		this.isUsed = false;
 		this.stat = stat;
 		this.options = options;
-		this.applyOptions();
+		this.applyCustomOptions();
 	}
 
-	applyOptions() {
+	applyCustomOptions() {
 		const { options } = this;
 		for (const prop in options) {
 			this[prop] = options[prop];
 		}
 	}
-
 }
 
 export class Wearable extends Item {
-	constructor(id, stat = 1, options = {}) {
+	constructor(id, stat = 1, type, options = {}) {
 		super(id, stat, options);
 		this.isWearable = true;
-		this.type = this.determineType();
+		this.type = type;
 		this.rank = this.grantRank();
-		this.price = this.calculatePrice()
-
-	}
-
-	determineType() {
-		return sample([melee, shield]);
+		this.price = this.calculatePrice();
 	}
 
 	grantRank() {

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { heal, removeItem, putItemOn, putItemOff, moneyChange } from '../actions';
+import { useItem, sellItem } from '../actions';
 
 require('styles/Inventory.scss');
 
 import Item from './Item.jsx';
-import { MAX_PACK, potion } from '../consts';
+import { MAX_PACK } from '../consts';
 
 class Inventory extends Component {
 	render() {
@@ -15,12 +15,16 @@ class Inventory extends Component {
 			return <div/>
 		}
 
-		return (
+		const spaceFilled = this.props.inventory.length;
+		const spaceLeft = MAX_PACK;
+		const listOfItems = this.mapItems();
+
+	return (
 		<div className="inventory">
 			<h2>Lambro's inventory</h2>
-			<p>Filled space: { this.props.inventory.length } / { MAX_PACK }</p>
+			<p>Filled space: { spaceFilled } / { spaceLeft }</p>
 			<div className="inventory__items">
-					{ this.mapItems() }
+					{ listOfItems }
 			</div>
 		</div>
 		)
@@ -28,50 +32,39 @@ class Inventory extends Component {
 
 	mapItems() {
 		const { inventory } = this.props;
+
 		return (
 			inventory.map(item => {
+
+				const useItem = () => {
+					this.props.useItem.bind(this, item);
+				}
+
+				const sellItem = (e) => {
+					e.preventDefault();
+					this.props.sellItem.bind(this, item)
+				}
+
 			  return (
 			  	<Item
-				  	params={item} key={item.id}
-					  use={this.useItem.bind(this)}
-					  sell={this.sellItem.bind(this)}
+				  	params={ item }
+				  	key={ item.id }
+					  onClick={ useItem }
+					  onContextMenu={ sellItem }
 			  	/>
 		  	)
 			})
 		)
 	}
-
-	useItem(item) {
-		if (item.type === potion) {
-			this.props.heal(item.stat);
-			this.props.removeItem(item);
-		}
-
-		if (item.isWearable) {
-			if (!item.isUsed) {
-				this.props.putItemOn(item);
-			} else {
-				this.props.putItemOff(item)
-			}
-		}
-	}
-
-	sellItem(item, e) {
-		e.preventDefault();
-		this.props.removeItem(item);
-
-		if (item.isWearable) {
-			this.props.moneyChange(item.stat)
-		}
-	}
+	
 }
 
 function mapStateToProps({ inventory }) {
-	return {inventory}
+	return { inventory }
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({heal, removeItem, putItemOn, putItemOff, moneyChange}, dispatch)
+	return bindActionCreators({ useItem, sellItem }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Inventory);

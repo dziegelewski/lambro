@@ -11,21 +11,21 @@ export const mercenaries = [
 	{
 		id: 0,
 		name: 'warrior',
-		price: 10,
+		cost: 10,
 		attack: 3
 	},
 
 	{
 		id: 1,
 		name: 'mage',
-		price: 30,
+		cost: 30,
 		attack: 10
 	},
 
 	{
 		id: 2,
 		name: 'devil',
-		price: 100,
+		cost: 100,
 		attack: 50
 	}
 ]

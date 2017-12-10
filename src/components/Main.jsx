@@ -8,26 +8,25 @@ import Tavern from './Tavern.jsx';
 import Inventory from './Inventory.jsx';
 import Stats from './Stats.jsx';
 import Copyright from './Copyright.jsx';
+import Regeneration from './Regeneration.jsx';
 
 class AppComponent extends React.Component {
   render() {
     return (
     	<div>
 
-	    	<Panel />
+        <Panel />
+        <Enemy />
+        <Tavern />
+        <Stats />
+        <Inventory />
+        <Copyright />
 
-    		<Enemy />
-    		<Tavern />
-    		<Stats />
-	    	<Inventory />
-	    	<Copyright />
-
+        <Regeneration />
+        
 	    </div>
     );
   }
 }
-
-AppComponent.defaultProps = {
-};
 
 export default AppComponent;

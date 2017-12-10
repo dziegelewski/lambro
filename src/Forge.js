@@ -1,4 +1,4 @@
-import { FORGE_STARTING_MASTERY, wearable, potion } from './consts';
+import { FORGE_STARTING_MASTERY, wearable, weapon, shield, potion } from './consts';
 import { Wearable, Potion } from './Item';
 import random from 'lodash/random';
 import times from 'lodash/times';
@@ -18,21 +18,21 @@ class Forge {
 
 	craft(itemType, options) {
 		this.craftedByFar ++;
-		itemType = itemType || this.whatWillBeCrafted();
+		const type = itemType || this.whatWillBeCrafted();
 		const id = this.nextItemId;
 		let stat;
 		
-		if (itemType === potion) {
+		if (type === potion) {
 			stat = this.calculatePotionStat();
 			return new Potion(id, stat, options);
 		} else {
 			stat = this.calculateWearableStat();
-			return new Wearable(id, stat, options);
+			return new Wearable(id, stat, type, options);
 		}
 	}
 
-	craftMany(howMany) {
-		return times(howMany, this.craft.bind(this));
+	craftMany(numberofItemsToCraft) {
+		return times(numberofItemsToCraft, this.craft.bind(this));
 	}
 
 	willSomethingBeCrafted() {
@@ -40,7 +40,16 @@ class Forge {
 	}
 
 	whatWillBeCrafted() {
-		return random(1,3) === 1 ? potion : wearable;
+		const supertype = random(1,3) === 1 ? potion : wearable;
+		let type;
+
+		if (supertype === wearable) {
+			type = random(1,2) === 1 ? weapon : shield;
+		} else {
+			type = potion;
+		}
+
+		return type;
 	}
 
 	calculatePotionStat() {

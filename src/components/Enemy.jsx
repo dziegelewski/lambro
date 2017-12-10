@@ -10,21 +10,26 @@ import Bricks from './Bricks.jsx';
 
 class Enemy extends Component {
 	render() {
-		const { life, maxLife } = this.props;
-		const percentageLife = life/maxLife;
+
+		const enemyLife = this.props.life;
+		const enemyMaxLife = this.props.maxLife;
+		const enemyLifeRatio = enemyLife / enemyMaxLife;
+
+		const hitTheEnemy = () => {
+			this.props.strike();
+		}
 
 		return (
-			<button className="enemy" onClick={this.strike.bind(this)}>
-				<Bricks percentageLife={percentageLife}>
-					<img src={castleImage} className="enemy__image" />
+			<button
+				className="enemy"
+				onClick={ hitTheEnemy }
+			>
+				<Bricks percentageLife={ enemyLifeRatio }>
+					<img src={ castleImage } className="enemy__image" />
 				</Bricks>
-				<h1>{this.props.life} / {this.props.maxLife}</h1>
+				<h1>{ enemyLife } / { enemyMaxLife }</h1>
 			</button>
 		)
-	}
-
-	strike() {
-		this.props.strike()
 	}
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { hireMercenary, moneyChange, resetGame } from '../actions';
+import { hireMercenary } from '../actions';
 
 require('styles/Tavern.scss');
 
@@ -10,34 +10,42 @@ import Mercenary from './Mercenary.jsx';
 class Tavern extends Component {
 	render() {
 
+		const heroMoney = this.props.money;
+		const listOfMercenaries = this.mapMercenaries();
+
 		return (
 			<div className="tavern">
-				Money: { this.props.money }
+				Money: { heroMoney }
 				<ul className="tavern__rooms">
-					{ this.mapMercenaries() }
+					{ listOfMercenaries }
 				</ul>
 			</div>
 		)
 	}
 
 	mapMercenaries() {
+
 		return this.props.mercenaries.map((mercenary, index) => {
+
+			const key = mercenary.id;
+			const numberOfMercenaries = this.props.mercenariesNumber[index];
+			const stats = mercenary;
+			const hireMercenary = this.hireMercenary.bind(this);
+
 			return (
+
 				<Mercenary
-					key={mercenary.id}
-					number={this.props.mercenariesNumber[index]}
-					stats={mercenary}
-					hire={this.hireMercenary.bind(this)}
+					key={ key }
+					number={ numberOfMercenaries }
+					stats={ stats }
+					onClick={ hireMercenary }
 				/>
 				)
 			})
 	}
 
-	hireMercenary(id, price) {
-		if (this.props.money >= price) {
-			this.props.moneyChange(-price);
-			this.props.hireMercenary(id);
-		}
+	hireMercenary(id) {
+		this.props.hireMercenary(id);
 	}
 }
 
@@ -46,7 +54,7 @@ function mapStateToProps({mercenaries, mercenariesNumber, money}) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ resetGame, hireMercenary, moneyChange }, dispatch);
+	return bindActionCreators({ hireMercenary }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tavern);

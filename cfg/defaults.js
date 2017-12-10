@@ -25,6 +25,10 @@ function getDefaultModules() {
     ],
     loaders: [
       {
+        test: /\.ts$/,
+        loader: 'typescript-loader'
+      },
+      {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
       },
