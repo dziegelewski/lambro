@@ -37,20 +37,20 @@ class Inventory extends Component {
 			inventory.map(item => {
 
 				const useItem = () => {
-					this.props.useItem.bind(this, item);
+					this.props.useItem(item);
 				}
 
 				const sellItem = (e) => {
 					e.preventDefault();
-					this.props.sellItem.bind(this, item)
+					this.props.sellItem(item)
 				}
 
 			  return (
 			  	<Item
 				  	params={ item }
 				  	key={ item.id }
-					  onClick={ useItem }
-					  onContextMenu={ sellItem }
+				  	useItem={ useItem }
+				  	sellItem={ sellItem }
 			  	/>
 		  	)
 			})

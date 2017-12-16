@@ -1,8 +1,21 @@
 import Forge from './Forge';
-import random from 'lodash/random';
-import { startingState, melee, mercenaries, potion } from './consts';
+import { startingState, melee, shield, mercenaries, potion } from './consts';
 
 export const emptyItem = { stat: 0 };
+
+function stateWrapper(state) {
+	const attack = getHeroDamage(state) + getMercenariesTotalAttack(state);
+	const defense = getHeroDefense(state);
+	const potionsActive = canPotionBeUsed(state);
+
+	return {
+		...state,
+		attack,
+		defense,
+		potionsActive
+	}	
+}
+
 
 function produceStartingState() {
 	return { ...startingState, mercenariesNumber: mercenaries.map(() => 0) }
@@ -73,62 +86,87 @@ function healHero(state, { healing, isRegenerating = false }) {
 	}
 }
 
+function isHeroFullyHealed(state) {
+	return state.hero.life === state.hero.maxLife;
+}
+
+function isHeroDead(state) {
+	return state.hero.isDead;
+}
+
 
 function onHeroStrike(state) {
-		const { hero, enemy, money, inventory } = state;
+		const { hero, enemy } = state;
 
 		if (hero.isDead) {
 			return state
 		}
 
-		const computeDealedDamage = function() {
-			return random(1,5) + getActiveItem(inventory, melee).stat;
-		};
-		
-		const damageToDeal = computeDealedDamage();
-		const newHeroLife = hero.life - enemy.damage;
-		const isHeroGotKilled = newHeroLife <= 0;
-		const newEnemyLife = enemy.life - damageToDeal;
-		const isEnemyGotKilled = newEnemyLife <= 0;
-		const newMoneyAmount = money + 10;
-		const isItemCrafted = Forge.willSomethingBeCrafted();
+		const heroDamage = getHeroDamage(state);
+		state = enemyGotHurt(state, heroDamage);
 
-		state = {
-			...state,
-			hero: {
-				...hero,
-				life: newHeroLife
-			},
-			enemy: {
-				...enemy,
-				life: newEnemyLife
-			},
-			money: newMoneyAmount
-		}
+		const enemyDamage = enemy.damage;
+		state = heroGotHurt(state, enemyDamage)
 
-		if (isHeroGotKilled) {
-			state.hero.life = 0;
-			state.hero.isDead = true
-		}
+		const isItemObtained = Forge.willSomethingBeCrafted();
 
-		if (isEnemyGotKilled) {
-			state = nextRound(state);
-		}
-
-		if (isItemCrafted) {
+		if (isItemObtained) {
 			state = addRandomItemToInventory(state)
 		}
 
 		return state;
+	}
+
+function heroGotHurt(state, damage) {
+		// @todo consider DEFENSE
+		const { hero } = state;
+
+		const heroNewLife = Math.max(hero.life - damage, 0);
+		const isHeroGotKilled = !heroNewLife;
+
+		return {
+			...state,
+			hero: {
+				...hero,
+				life: heroNewLife,
+				isDead: isHeroGotKilled
+			}
+		}
+}
+
+function enemyGotHurt(state, damage) {
+		const { enemy } = state;
+
+		const enemyNewLife = Math.max(enemy.life - damage, 0);
+		const isEnemyGotKilled = !enemyNewLife;
+
+		if (isEnemyGotKilled) {
+			state = nextRound(state);
+		} else {
+			state.enemy.life = enemyNewLife;
+		}
+
+		const earnedMoney = 10;
+		state = getMoney(state, earnedMoney)
+
+		return state;;
 }
 
 
+function getHeroDamage(state) {
+	const baseDamage = state.hero.attack;
+	const itemDamage = getActiveItem(state, melee).stat;
+	return baseDamage + itemDamage;
+}
 
+function getHeroDefense(state) {
+	const baseDefense = state.hero.defense;
+	const itemDefense = getActiveItem(state, shield).stat;
+	return baseDefense + itemDefense;
+}
 
 function hireMercenary(state, mercenaryIndex) {
-	
-	const mercenaryType = mercenaries[mercenaryIndex]
-	const mercenaryCost = mercenaryType.cost;
+	const mercenaryCost = mercenaries[mercenaryIndex].cost;
 
 	if (hasEnoughMoney(state, mercenaryCost)) {
 		state = payMoney(state, mercenaryCost);
@@ -138,36 +176,53 @@ function hireMercenary(state, mercenaryIndex) {
 	return state;
 }
 
+function getMercenariesTotalAttack(state) {
+	return mercenaries.reduce((total, mercenaryType) => {
+		return total + (state.mercenariesNumber[mercenaryType.id] * mercenaryType.attack)
+	}, 0)
+}
 		
 
 function useItem(state, item) {
 	const { type } = item;
 	if (item.isWearable) {
+		let activeItem
 
 		if (hasActiveItem(state, type)) {
-			const activeItem = getActiveItem(state, type);
+			activeItem = getActiveItem(state, type);
 			state = putItemOff(state, activeItem);
 		}
 
-		state = putItemOn(state, item);
+		if (activeItem !== item) {
+			state = putItemOn(state, item);
+		}
 
-	}
-
-	if (item === potion) {
-		const healingPower = item.stat
-		state = healHero(state, { healing: healingPower })
-		state = removeItem(state, item);
+	} else if (type === potion) {
+		state = drinkPotion(state, item)
 	}
 
 	return state;
 }
 
-function getActiveItem(inventory, itemType) {
-		return inventory.find(({ isUsed, type }) => isUsed === true && type === itemType ) || emptyItem
+function drinkPotion(state, item) {
+		if (!canPotionBeUsed(state)) return state;
+
+		const healing = item.stat
+		state = healHero(state, { healing })
+		state = removeItem(state, item);
+		return state;
 }
 
-function hasActiveItem(inventory, itemType) {
-	return getActiveItem(inventory, itemType) !== emptyItem;
+function canPotionBeUsed(state) {
+	return !isHeroDead(state) && !isHeroFullyHealed(state);
+}
+
+function getActiveItem(state, itemType) {
+		return state.inventory.find(({ isUsed, type }) => isUsed === true && type === itemType ) || emptyItem
+}
+
+function hasActiveItem(state, itemType) {
+	return getActiveItem(state, itemType) !== emptyItem;
 }
 
 
@@ -188,7 +243,7 @@ function putItemOff(state, item) {
 	return {...state,
 		inventory: state.inventory.map(inventoryItem => {
 			if (inventoryItem.type === type) {
-				inventoryItem.iwhsUsed = false;
+				inventoryItem.isUsed = false;
 			}
 			return inventoryItem
 		})
@@ -203,8 +258,15 @@ function removeItem(state, item) {
 }
 
 function sellItem(state, item) {
+
+	if (getActiveItem(state, item.type) === item) {
+		state = putItemOff(state, item);
+	}
+
 	state = getMoney(state, item.price);
-	state = removeItem(state, item)
+	state = removeItem(state, item);
+
+	return state;
 }
 
 function addItemToInventory(state, item) {
@@ -242,12 +304,14 @@ function hasEnoughMoney(state, amount) {
 
 
 export default {
+	stateWrapper,
 	produceStartingState,
 	healHero,
 	onHeroStrike,
 	getActiveItem,
 	hasActiveItem,
 	hireMercenary,
+	getMercenariesTotalAttack,
 	nextRound,
 	moneyChange,
 	useItem,

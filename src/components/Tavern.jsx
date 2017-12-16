@@ -30,7 +30,10 @@ class Tavern extends Component {
 			const key = mercenary.id;
 			const numberOfMercenaries = this.props.mercenariesNumber[index];
 			const stats = mercenary;
-			const hireMercenary = this.hireMercenary.bind(this);
+
+			const hireMercenary = () => {
+					this.props.hireMercenary(index);
+			}
 
 			return (
 
@@ -38,7 +41,7 @@ class Tavern extends Component {
 					key={ key }
 					number={ numberOfMercenaries }
 					stats={ stats }
-					onClick={ hireMercenary }
+					hireMercenary = { hireMercenary }
 				/>
 				)
 			})

@@ -2,6 +2,8 @@ import { RESET_GAME, STRIKE, HIRE_MERCENARY, REGENERATE, USE_ITEM, SELL_ITEM } f
 import helpers  from '../reducerHelpers';
 import Forge from '../Forge';
 
+const { stateWrapper } = helpers;
+
 export default function(state = helpers.produceStartingState(), { type, payload }) {
 
 	switch(type) {
@@ -10,24 +12,23 @@ export default function(state = helpers.produceStartingState(), { type, payload 
 			return state;
 			
 		case REGENERATE:
-			return helpers.healHero(state, payload)
+			return stateWrapper(helpers.healHero(state, payload));
 
 		case RESET_GAME:
 			Forge.startOver();
-			return helpers.produceStartingState();
+			return stateWrapper(helpers.produceStartingState());
 
 		case STRIKE:
-			return helpers.onHeroStrike(state)
+			return stateWrapper(helpers.onHeroStrike(state));
 
 		case HIRE_MERCENARY:
-			return helpers.hireMercenary(state, payload)
-
+			return stateWrapper(helpers.hireMercenary(state, payload));
 
 		case USE_ITEM:
-			return helpers.useItem(state, payload)
+			return stateWrapper(helpers.useItem(state, payload));
 
 		case SELL_ITEM:
-			return helpers.sellItem(state, payload)
+			return stateWrapper(helpers.sellItem(state, payload));
 
 	}
 }

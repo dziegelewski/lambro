@@ -9,23 +9,32 @@ let icons = {
 	shield: range(0,3).map(index => require(`../images/shield${index}.svg` )),
 	potion: [0].map(index => require(`../images/potion${index}.svg` ))
 }
+
+
  
 class Item extends Component {
 	render() {
+
+		const {
+			params,
+			useItem,
+			sellItem
+		} = this.props;
+
 		const {
 			type,
 			rank,
 			stat = 0,
 			isUsed = false
-		} = this.props.params;
+		} = params;
 
 		const figureClass = `item item--${type} ${isUsed ? 'item--used' : ''}`;
 		const captionClass = `item__caption item__caption--${type}`;
 		const pictureSrc = icons[type][rank];
-
+		
 		return (
 
-			<figure	className={figureClass}>
+			<figure	className={figureClass} onClick={ useItem.bind(this) } onContextMenu={ sellItem.bind(this) }>
 
 				<img className="item__image" src={pictureSrc} alt="Item" />
 

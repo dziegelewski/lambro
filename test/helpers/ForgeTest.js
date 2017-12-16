@@ -5,11 +5,12 @@ describe('Forge', function () {
     describe('General', function() {
         it('should has gettable mastery level which is a number', function() {
             expect(Forge.mastery).to.be.a('number');
-        })
+        }) 
     })
 
     describe('craft()', function () {
         const craftedItem = Forge.craft();
+        console.log(craftedItem)
 
         it('should be an object', function() {
             expect(craftedItem).to.be.an('object');
@@ -17,6 +18,14 @@ describe('Forge', function () {
 
         it('should has isWearable property', function() {
         	expect(craftedItem).to.has.property('isWearable');
+        });
+
+        it('should has a rank property', function() {
+            expect(craftedItem).to.has.property('rank');
+        });
+
+        it('should has a type property', function() {
+            expect(craftedItem).to.has.property('type');
         });
     })
 

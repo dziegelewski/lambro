@@ -8,7 +8,7 @@ class Regeneration extends Component {
 		
 		setInterval(
 			() => this.props.regenerate(1),
-			1000
+			500
 		)
 
 		return null;

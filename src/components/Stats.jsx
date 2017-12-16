@@ -9,14 +9,14 @@ import Lifebar from './Lifebar.jsx';
 
 class Stats extends Component {
 	render() {
-		const { life, maxLife, isDead } = this.props;
+		const { attack, defense, life, maxLife, isDead } = this.props;
 		const percentageLife = life/maxLife;
 
 		return(
 			<div className="stats">
 				<h2>Lambro's stats</h2>
-				<p>Attack: {this.getUsedItem(melee).stat}</p>
-				<p>Defense: {this.getUsedItem(shield).stat}</p>
+				<p>Attack: { attack }</p>
+				<p>Defense: { defense }</p>
 
 				<Lifebar percentageLife={percentageLife} isDead={isDead} />
 				<h1>{ life }</h1>
@@ -25,14 +25,12 @@ class Stats extends Component {
 		)
 	}
 
-	getUsedItem(itemType) {
-		return this.props.inventory.find(({ isUsed, type }) => isUsed === true && type === itemType ) || { stat: 0 }
-	}
-
 }
 
-function mapStateToProps({ hero:  { life, maxLife, isDead }, inventory }) {
+function mapStateToProps({ attack, defense, hero:  { life, maxLife, isDead }, inventory }) {
 	return {
+		attack,
+		defense,
 		life,
 		maxLife,
 		inventory,

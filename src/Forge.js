@@ -1,4 +1,4 @@
-import { FORGE_STARTING_MASTERY, wearable, weapon, shield, potion } from './consts';
+import { FORGE_STARTING_MASTERY, wearable, melee, shield, potion } from './consts';
 import { Wearable, Potion } from './Item';
 import random from 'lodash/random';
 import times from 'lodash/times';
@@ -44,7 +44,7 @@ class Forge {
 		let type;
 
 		if (supertype === wearable) {
-			type = random(1,2) === 1 ? weapon : shield;
+			type = random(1,2) === 1 ? melee : shield;
 		} else {
 			type = potion;
 		}
