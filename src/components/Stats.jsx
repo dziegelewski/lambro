@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 require('styles/Stats.scss');
 
-import { shield, melee } from '../consts';
 import Lifebar from './Lifebar.jsx';
 
 
@@ -14,12 +13,12 @@ class Stats extends Component {
 
 		return(
 			<div className="stats">
-				<h2>Lambro's stats</h2>
-				<p>Attack: { attack }</p>
-				<p>Defense: { defense }</p>
+				<div className="stats__numbers">
+					<span className="stats__stat">Total attack: { attack }</span>
+					<span className="stats__stat">Total defense: { defense }</span>
+				</div>
 
 				<Lifebar percentageLife={percentageLife} isDead={isDead} />
-				<h1>{ life }</h1>
 
 			</div>
 		)

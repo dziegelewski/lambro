@@ -1,10 +1,15 @@
-import { FORGE_STARTING_MASTERY, wearable, melee, shield, potion } from './consts';
-import { Wearable, Potion } from './Item';
-import random from 'lodash/random';
-import times from 'lodash/times';
+import {
+	FORGE_STARTING_MASTERY,
+	wearable,
+	melee,
+	shield,
+	potion
+} from "./consts";
+import { Wearable, Potion } from "./Item";
+import random from "lodash/random";
+import times from "lodash/times";
 
 class Forge {
-
 	constructor(craftedByFar) {
 		this.initialCraftedByFar = craftedByFar;
 		this.craftedByFar = craftedByFar;
@@ -17,11 +22,11 @@ class Forge {
 	}
 
 	craft(itemType, options) {
-		this.craftedByFar ++;
+		this.craftedByFar++;
 		const type = itemType || this.whatWillBeCrafted();
 		const id = this.nextItemId;
 		let stat;
-		
+
 		if (type === potion) {
 			stat = this.calculatePotionStat();
 			return new Potion(id, stat, options);
@@ -36,15 +41,15 @@ class Forge {
 	}
 
 	willSomethingBeCrafted() {
-		return random(1,3) === 1;
+		return random(1, 3) === 1;
 	}
 
 	whatWillBeCrafted() {
-		const supertype = random(1,3) === 1 ? potion : wearable;
+		const supertype = random(1, 3) === 1 ? potion : wearable;
 		let type;
 
 		if (supertype === wearable) {
-			type = random(1,2) === 1 ? melee : shield;
+			type = random(1, 2) === 1 ? melee : shield;
 		} else {
 			type = potion;
 		}
@@ -53,21 +58,20 @@ class Forge {
 	}
 
 	calculatePotionStat() {
-		return this.mastery * 15;
+		return this.mastery * 30;
 	}
 
 	calculateWearableStat() {
-		return Math.floor((random(10,30) * this.mastery)/10);
+		return Math.floor(random(10, 30) * this.mastery / 10);
 	}
 
 	get mastery() {
-		return Math.ceil(this.craftedByFar/5)
+		return Math.ceil(this.craftedByFar / 10);
 	}
 
 	get nextItemId() {
 		return this.craftedByFar;
 	}
-
 }
 
-export default new Forge(FORGE_STARTING_MASTERY)
+export default new Forge(FORGE_STARTING_MASTERY);

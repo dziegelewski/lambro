@@ -2,17 +2,77 @@
 
 .panel {
 	position: fixed;
+
 	right: 0;
+	bottom: 0;
 	background: $red;
-	
+
+	&__buttons {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+
 	&__button {
-	padding: 10px 20px;
-	border: none;
-	background: none;
-	font-size: 20px;
-	font-weight: bold;
-	color: $white;
-	cursor: pointer;
+		padding: 10px 20px;
+		border: none;
+		background: none;
+		font-size: 20px;
+		font-weight: bold;
+		color: $white;
+		cursor: pointer;
+		
+		&--spacious {
+			padding: 0;
+		}
+	}
+
+	&__icon {
+		&--arrow {
+			height: 30px;
+		}
+	}
+
+	&--collapsed {
+		$size: 50px;
+		width: $size;
+		height: $size;
+		border-top-left-radius: $size;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		padding-left: 5px;
+		padding-bottom: 5px;
+
+		button {
+			@include clean-button;
+			cursor: pointer;
+			$icon-size: $size * 0.85;
+			width: $icon-size;
+			height: $icon-size;
+
+			&:hover {
+				img {
+					animation: rotate 2s infinite;
+					animation-timing-function: linear;
+				}
+			}
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+
+			@keyframes rotate {
+				from { transform: rotate(0deg); }
+				to { transform: rotate(360deg); }
+			}
+		}
+
+	}
+
+	&--expanded {
+		padding: 1em 1.5em;
 	}
 
 }

@@ -45,5 +45,14 @@
 			color: $red;
 		}
 	}
+
+	&--disabled {
+		filter: grayscale(100%);
+	}
+
+	&--flex {
+		visibility: hidden;
+		height: 1px;
+	}
 }
 

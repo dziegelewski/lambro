@@ -1,23 +1,47 @@
 @import 'common';
 
 .lifebar {
-	width: 40px;
-	height: 300px;
-	border-radius: 25%;
+
+	border-radius: 10px;
 	border: 1px solid $dark;
 	display: inline-flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: flex-end;
 	overflow: hidden;
+	
+	width: 100%;
+	height: 30px;
+	justify-content: flex-start;
 
-	&__liquid {
-		transition: height .2s;
-		width: 80%;
-		background: $red;
+	@media screen and (min-width: $breakpoint1) {
+		width: 40px;
+		height: 300px;
+		flex-direction: column;
+		justify-content: flex-end;
 	}
 
-	&__liquid--deadman {
-	background: $dead;
+	&__liquid {
+		transition: height .2s, width .2s;
+		background: $red;
+		$fulfillment: 90%;
+
+		&--vertical {
+			display: none;
+			width: $fulfillment;
+			@media screen and (min-width: $breakpoint1) {
+				display: block;
+			}
+		}
+
+		&--horizontal {
+			display: block;
+			height: $fulfillment;
+			@media screen and (min-width: $breakpoint1) {
+				display: none;
+			}
+		}
+	}
+
+	&__liquid--ghost {
+	background: $ghost;
 	}
 }

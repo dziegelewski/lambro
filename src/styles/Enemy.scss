@@ -1,21 +1,40 @@
 @import 'common';
 
 .enemy {
+	cursor: pointer;
+	width: 100%;
+
+
 	background: none;
 	border: 0;
 	cursor: pointer;
+	max-width: 100%;
+	overflow: hidden;
+	position: relative;
+
+	// &__damaged {
+	// 	font-size: 2em;
+	// 	position: absolute;
+	// 	bottom: 0;
+	// 	left: 50%;
+	// 	display: none;
+	// 	animation: 1s appear infinite;
+	// }
+
+	// @keyframes appear {
+	// 	from { display: block; }
+	// 	to { bottom: 50%; }
+	// }
 
 	&__image {
-		margin: 5%;
-		height: 80%;
+		max-width: 60%;
 	}
 
 	&__bricks {
 		box-sizing: border-box;
 		position: relative;
-		$size: 500px;
-		width: $size;
-		height: $size;
+		width: 100%;
+
 	}
 
 	&__bricks-row {

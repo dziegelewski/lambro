@@ -6,7 +6,7 @@ import { useItem, sellItem } from '../actions';
 require('styles/Inventory.scss');
 
 import Item from './Item.jsx';
-import { MAX_PACK } from '../consts';
+import { MAX_PACK, potion } from '../consts';
 
 class Inventory extends Component {
 	render() {
@@ -25,32 +25,34 @@ class Inventory extends Component {
 			<p>Filled space: { spaceFilled } / { spaceLeft }</p>
 			<div className="inventory__items">
 					{ listOfItems }
+					<div className="item item--flex" />
+					<div className="item item--flex" />
+					<div className="item item--flex" />
 			</div>
 		</div>
 		)
 	}
 
 	mapItems() {
-		const { inventory } = this.props;
+		const { inventory, potionsEnabled } = this.props;
 
 		return (
 			inventory.map(item => {
 
-				const useItem = () => {
-					this.props.useItem(item);
-				}
-
+				const isEnabled = item.type !== potion || potionsEnabled;
+				const useItem = () => this.props.useItem(item);
 				const sellItem = (e) => {
 					e.preventDefault();
 					this.props.sellItem(item)
-				}
+				};
 
 			  return (
 			  	<Item
 				  	params={ item }
+				  	isEnabled={ isEnabled }
 				  	key={ item.id }
-				  	useItem={ useItem }
-				  	sellItem={ sellItem }
+				  	onClick={ useItem }
+				  	onContextMenu={ sellItem }
 			  	/>
 		  	)
 			})
@@ -59,8 +61,8 @@ class Inventory extends Component {
 	
 }
 
-function mapStateToProps({ inventory }) {
-	return { inventory }
+function mapStateToProps({ inventory, potionsEnabled  }) {
+	return { inventory, potionsEnabled }
 }
 
 function mapDispatchToProps(dispatch) {

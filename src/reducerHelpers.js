@@ -1,24 +1,31 @@
+import cloneDeep from 'lodash/cloneDeep';
 import Forge from './Forge';
-import { startingState, melee, shield, mercenaries, potion } from './consts';
+import { startingState, melee, shield, mercenaries, potion, MAX_PACK } from './consts';
+import { aboveZero, nonNegative } from './helpers';
 
 export const emptyItem = { stat: 0 };
 
 function stateWrapper(state) {
 	const attack = getHeroDamage(state) + getMercenariesTotalAttack(state);
 	const defense = getHeroDefense(state);
-	const potionsActive = canPotionBeUsed(state);
+	const potionsEnabled = canPotionBeUsed(state);
+	const mercenariesAffordability = mercenaries.map(mercenary => mercenary.cost <= state.money);
 
 	return {
 		...state,
 		attack,
 		defense,
-		potionsActive
+		mercenariesAffordability,
+		potionsEnabled
 	}	
 }
 
 
 function produceStartingState() {
-	return { ...startingState, mercenariesNumber: mercenaries.map(() => 0) }
+	return {
+		...cloneDeep(startingState),
+		mercenariesNumber: cloneDeep(mercenaries).map(() => 0)
+	}
 }
 
 function nextRound(state) {
@@ -35,7 +42,7 @@ function nextRound(state) {
 function powerUpEnemy(state) {
 	let { enemy } = state;
 
-	const increaseMaxLife = value => Math.floor(value * 1.1);
+	const increaseMaxLife = value => Math.floor(value * 1.3);
 	const increaseDamage = value => Math.floor(value * 1.2);
 
 	const increasedLife = increaseMaxLife(enemy.maxLife);
@@ -94,15 +101,14 @@ function isHeroDead(state) {
 	return state.hero.isDead;
 }
 
-
 function onHeroStrike(state) {
-		const { hero, enemy } = state;
+		const { hero, enemy, attack } = state;
 
 		if (hero.isDead) {
 			return state
 		}
 
-		const heroDamage = getHeroDamage(state);
+		const heroDamage = attack;
 		state = enemyGotHurt(state, heroDamage);
 
 		const enemyDamage = enemy.damage;
@@ -118,11 +124,14 @@ function onHeroStrike(state) {
 	}
 
 function heroGotHurt(state, damage) {
-		// @todo consider DEFENSE
-		const { hero } = state;
+		const { hero, defense } = state;
 
-		const heroNewLife = Math.max(hero.life - damage, 0);
+		damage = aboveZero(damage - defense);
+
+		const heroNewLife = nonNegative(hero.life - damage);
 		const isHeroGotKilled = !heroNewLife;
+
+		console.log({ damage })
 
 		return {
 			...state,
@@ -137,7 +146,7 @@ function heroGotHurt(state, damage) {
 function enemyGotHurt(state, damage) {
 		const { enemy } = state;
 
-		const enemyNewLife = Math.max(enemy.life - damage, 0);
+		const enemyNewLife = nonNegative(enemy.life - damage);
 		const isEnemyGotKilled = !enemyNewLife;
 
 		if (isEnemyGotKilled) {
@@ -146,10 +155,10 @@ function enemyGotHurt(state, damage) {
 			state.enemy.life = enemyNewLife;
 		}
 
-		const earnedMoney = 10;
+		const earnedMoney = damage;
 		state = getMoney(state, earnedMoney)
 
-		return state;;
+		return state;
 }
 
 
@@ -269,7 +278,14 @@ function sellItem(state, item) {
 	return state;
 }
 
+
+function isInventoryFull(state) {
+	return state.inventory.length >= MAX_PACK;
+}
+
 function addItemToInventory(state, item) {
+	if (isInventoryFull(state)) return state;
+
 	const inventory = [...state.inventory, item];
 
 	return {

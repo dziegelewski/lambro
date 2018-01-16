@@ -1,7 +1,7 @@
 @import 'common';
 
 .mercenary {
-
+	$r: &;
 	border: none;
 	background: none;
 	cursor: pointer;
@@ -13,8 +13,14 @@
 	}
 
 	&__portrait {
-		width: 80px;
-		height: 80px;
+		$size: 60px;
+		width: $size;
+		height: $size;
 	}
 
+	&--disabled {
+		img {
+			filter: grayscale(100%);
+		}
+	}
 }

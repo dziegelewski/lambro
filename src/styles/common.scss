@@ -6,11 +6,21 @@ $light: #666;
 $background: #E6DEDE;
 $red: #D80027;
 $special: green;
-$dead: #616893;
+$ghost: #313131;
 
 
 $transition-for-hover: transform .2s;
 $hover-effect:  scale(1.1);
+
+// $breakpoint1: 599px;
+$breakpoint1: 2599px;
+
+@mixin clean-button {
+	background: none;
+	border: none;
+	font-size: 1em;
+	line-height: inherit;
+}
 
 
 .shake {

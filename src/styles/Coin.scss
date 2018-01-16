@@ -1,0 +1,23 @@
+.coin {
+	$r: &;
+	display: inline-flex;
+	align-items: flex-end;
+
+	&--big {
+		flex-direction: column-reverse;
+		align-items: center;
+		#{$r}__img {
+			$size: 60px;
+		  width: $size;
+		  height: $size;
+		}
+	}
+
+
+  &__img {
+  	$size: 20px;
+  	margin-left: $size/3;
+	  width: $size;
+	  height: $size;
+  }
+}

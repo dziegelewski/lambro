@@ -1,5 +1,15 @@
 @import 'common';
 
 .stats {
-	float: right;
+	width: 100%;
+
+	&__numbers {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+	}
+
+	&__stat {
+		margin: 0 1.5em;
+	}
 }

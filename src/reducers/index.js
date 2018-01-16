@@ -1,34 +1,43 @@
-import { RESET_GAME, STRIKE, HIRE_MERCENARY, REGENERATE, USE_ITEM, SELL_ITEM } from '../actions';
-import helpers  from '../reducerHelpers';
-import Forge from '../Forge';
+import {
+	RESET_GAME,
+	STRIKE,
+	HIRE_MERCENARY,
+	REGENERATE,
+	USE_ITEM,
+	SELL_ITEM
+} from "../actions";
+import helpers from "../reducerHelpers";
+import Forge from "../Forge";
 
 const { stateWrapper } = helpers;
 
-export default function(state = helpers.produceStartingState(), { type, payload }) {
+function useHelper(state, { type, payload }) {
 
-	switch(type) {
-
+	switch (type) {
 		default:
 			return state;
-			
+
 		case REGENERATE:
-			return stateWrapper(helpers.healHero(state, payload));
+			return helpers.healHero(state, payload);
 
 		case RESET_GAME:
 			Forge.startOver();
-			return stateWrapper(helpers.produceStartingState());
+			return helpers.produceStartingState();
 
 		case STRIKE:
-			return stateWrapper(helpers.onHeroStrike(state));
+			return helpers.onHeroStrike(state);
 
 		case HIRE_MERCENARY:
-			return stateWrapper(helpers.hireMercenary(state, payload));
+			return helpers.hireMercenary(state, payload);
 
 		case USE_ITEM:
-			return stateWrapper(helpers.useItem(state, payload));
+			return helpers.useItem(state, payload);
 
 		case SELL_ITEM:
-			return stateWrapper(helpers.sellItem(state, payload));
-
+			return helpers.sellItem(state, payload);
 	}
+}
+
+export default function(state = helpers.produceStartingState(),	action) {
+	return stateWrapper(useHelper(state, action));
 }

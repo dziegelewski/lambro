@@ -1,19 +1,23 @@
 import React from "react";
+import Coin from "./Coin.jsx";
+
 
 require("styles/Mercenary.scss");
 
 export default function Mercenary(props) {
-	const { number, hireMercenary, stats: { id, name, attack, cost } } = props;
+	const { number, isAffordable, onClick, stats } = props;
+	const { id, name, attack, cost } = stats;
 
 	let portrait = require(`../images/mercenary${id}.svg`);
-
+	const affordabilityClass = isAffordable ? '' : 'mercenary--disabled';
+ 
 	return (
-		<button className="mercenary" onClick={hireMercenary.bind(this)}>
-			<h3>{attack}</h3>
-			<p>
-				{number} ({cost}$)
-			</p>
+
+		<button className={"mercenary " + affordabilityClass} onClick={onClick}>
 			<img src={portrait} className="mercenary__portrait" alt={name} />
+			<div> {number} | {attack}</div>
+			<div>	<Coin>{cost}</Coin></div>
 		</button>
+
 	);
 }

@@ -1,8 +1,21 @@
 @import 'common';
 
 .tavern {
-	float: right;
-	&__rooms {
+	width: 100%;
+	border: 1px solid black;
+	margin: 1em 0;
 
+	&__money {
+	display: flex;
+	}
+
+	&__rooms {
+		display: flex;
+		justify-content: space-around;
+		padding: 0;
+
+	}
+	&__room {
+		list-style: none;
 	}
 }
