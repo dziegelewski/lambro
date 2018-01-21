@@ -1,19 +1,21 @@
 import React from "react";
 import Coin from "components/Coin.jsx";
+import { onOffClass } from 'utils/helpers';
 
 
 require("styles/Mercenary.scss");
 
 export default function Mercenary(props) {
-	const { number, isAffordable, onClick, stats } = props;
+	const { number, isOn, onClick, stats } = props;
 	const { id, name, attack, cost } = stats;
 
 	let portrait = require(`../images/mercenary${id}.svg`);
-	const affordabilityClass = isAffordable ? '' : 'mercenary--disabled';
+	const className = 'mercenary ' + onOffClass('mercenary', isOn);
+	console.log(className)
  
 	return (
 
-		<button className={"mercenary " + affordabilityClass} onClick={onClick}>
+		<button className={className} onClick={onClick}>
 			<img src={portrait} className="mercenary__portrait" alt={name} />
 			<div> {number} | {attack}</div>
 			<div>	<Coin>{cost}</Coin></div>

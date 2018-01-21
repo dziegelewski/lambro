@@ -1,6 +1,24 @@
+@import 'common';
+
 .app {
   padding: .5em 1em 0;
 
-  max-width: 375px;
+  max-width: 900px;
   margin: 0 auto;
+
+
+	@media (min-width: $breakpoint1) {
+		&__row {
+			display: flex;
+		  flex-direction: row;
+		}
+
+		&__column {
+			padding: 0 1%;
+			display: flex;
+			flex-direction: column;
+			flex-basis: 48%;
+		}
+	}
+
 }

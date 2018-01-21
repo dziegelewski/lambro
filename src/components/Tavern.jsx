@@ -31,7 +31,7 @@ class Tavern extends Component {
 		return this.props.mercenaries.map((mercenary, index) => {
 			const key = mercenary.id;
 			const numberOfMercenaries = this.props.mercenariesNumber[index];
-			const isAffordable = this.props.mercenariesAffordability[index];
+			const isOn = this.props.mercenariesAffordability[index];
 			const stats = mercenary;
 
 			const hire = () => this.props.hireMercenary(index);
@@ -42,7 +42,7 @@ class Tavern extends Component {
 						key={key}
 						number={numberOfMercenaries}
 						stats={stats}
-						isAffordable={isAffordable}
+						isOn={isOn}
 						onClick={hire}
 					/>
 				</li>

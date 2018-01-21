@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { onOffClass } from 'utils/helpers';
+
 
 import range from "lodash/range";
 
@@ -12,11 +14,11 @@ let icons = {
 
 class Item extends Component {
 	render() {
-		const { params, isEnabled, onClick, onContextMenu } = this.props;
+		const { params, isOn, onClick, onContextMenu } = this.props;
 
 		const { type, rank, stat = 0, isUsed = false } = params;
 
-		const figureClass = `item item--${type} ${isUsed ? "item--used" : ""} ${isEnabled ? "" : "item--disabled"}`;
+		const figureClass = `item item--${type} ` + (isUsed ? "item--used" : "") + onOffClass(' item', isOn);
 		const captionClass = `item__caption item__caption--${type}`;
 		const pictureSrc = icons[type][rank];
 

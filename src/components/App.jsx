@@ -14,16 +14,24 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
+
+        <div className="app__row">
+          <div className="app__column app__column--main">
+            <Enemy />
+            <Stats />
+            <Tavern />
+          </div>
+
+          <div className="app__column">
+            <Inventory />
+          </div>
+        </div>
+
+        <div className="app__row">
+            <Copyright />
+        </div>
       
         <Panel />
-      
-        <Enemy />
-        <Stats />
-
-        <Tavern />
-        <Inventory />
-        <Copyright />
-
       </div>
     );
   }

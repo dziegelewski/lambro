@@ -39,7 +39,7 @@ class Inventory extends Component {
 		return (
 			inventory.map(item => {
 
-				const isEnabled = item.type !== potion || potionsEnabled;
+				const isOn = item.type !== potion || potionsEnabled;
 				const useItem = () => this.props.useItem(item);
 				const sellItem = (e) => {
 					e.preventDefault();
@@ -49,7 +49,7 @@ class Inventory extends Component {
 			  return (
 			  	<Item
 				  	params={ item }
-				  	isEnabled={ isEnabled }
+				  	isOn={ isOn }
 				  	key={ item.id }
 				  	onClick={ useItem }
 				  	onContextMenu={ sellItem }

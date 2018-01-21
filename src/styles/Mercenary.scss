@@ -4,13 +4,9 @@
 	$r: &;
 	border: none;
 	background: none;
-	cursor: pointer;
 	transition:	$transition-for-hover;
 	margin: 0;
 
-	&:hover &__portrait {
-		transform: $hover-effect;
-	}
 
 	&__portrait {
 		$size: 60px;
@@ -18,7 +14,14 @@
 		height: $size;
 	}
 
-	&--disabled {
+	&--on {
+		cursor: pointer;
+		&:hover #{$r}__portrait {
+			transform: $hover-effect;
+		}
+	}
+
+	&--off {
 		img {
 			filter: grayscale(100%);
 		}

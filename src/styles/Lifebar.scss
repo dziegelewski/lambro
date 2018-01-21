@@ -12,7 +12,7 @@
 	height: 30px;
 	justify-content: flex-start;
 
-	@media screen and (min-width: $breakpoint1) {
+	@media screen and (min-width: $breakpoint2) {
 		width: 40px;
 		height: 300px;
 		flex-direction: column;
@@ -27,7 +27,7 @@
 		&--vertical {
 			display: none;
 			width: $fulfillment;
-			@media screen and (min-width: $breakpoint1) {
+			@media screen and (min-width: $breakpoint2) {
 				display: block;
 			}
 		}
@@ -35,7 +35,7 @@
 		&--horizontal {
 			display: block;
 			height: $fulfillment;
-			@media screen and (min-width: $breakpoint1) {
+			@media screen and (min-width: $breakpoint2) {
 				display: none;
 			}
 		}
