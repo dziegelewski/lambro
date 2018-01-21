@@ -31,7 +31,12 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       actions: `${defaultSettings.srcPath}/actions/`,
+      reducers: `${defaultSettings.srcPath}/reducers/`,
+      utils: `${defaultSettings.srcPath}/utils/`,
+      consts: `${defaultSettings.srcPath}/utils/consts`,
       components: `${defaultSettings.srcPath}/components/`,
+      images: `${defaultSettings.srcPath}/images/`,
+      classes: `${defaultSettings.srcPath}/classes/`,
       sources: `${defaultSettings.srcPath}/sources/`,
       stores: `${defaultSettings.srcPath}/stores/`,
       styles: `${defaultSettings.srcPath}/styles/`,

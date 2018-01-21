@@ -1,4 +1,4 @@
-import { REGENERATE } from "./actions";
+import { REGENERATE } from "actions";
 
 let timerID;
 

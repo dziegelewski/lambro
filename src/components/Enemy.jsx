@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { craftItem, strike, moneyChange } from '../actions';
+import { craftItem, strike, moneyChange } from 'actions';
 // import Bricks from './Bricks.jsx';
  
 import 'styles/Enemy.scss';
 
-const castleImage = require('../images/castle.svg');
+const castleImage = require('images/castle.svg');
 
 class Enemy extends Component {
 	render() {

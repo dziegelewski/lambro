@@ -1,4 +1,4 @@
-import heroRegeneration from './heroRegeneration';
+import heroRegeneration from 'utils/heroRegeneration';
 
 const regenerationPerSecond = 2;
 const regeneratioInterval = 500;

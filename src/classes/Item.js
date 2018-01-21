@@ -1,4 +1,4 @@
-import { potion } from './consts';
+import { potion } from 'consts';
 
 export class Item {
 	constructor(id, stat, options) {

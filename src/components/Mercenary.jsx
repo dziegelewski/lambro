@@ -1,5 +1,5 @@
 import React from "react";
-import Coin from "./Coin.jsx";
+import Coin from "components/Coin.jsx";
 
 
 require("styles/Mercenary.scss");

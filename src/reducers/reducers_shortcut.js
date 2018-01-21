@@ -5,9 +5,9 @@ import {
 	REGENERATE,
 	USE_ITEM,
 	SELL_ITEM
-} from "../actions";
-import helpers from "../reducerHelpers";
-import Forge from "../Forge";
+} from "actions";
+import helpers from "utils/reducerHelpers";
+import Forge from "classes/Forge";
 
 const { stateWrapper } = helpers;
 

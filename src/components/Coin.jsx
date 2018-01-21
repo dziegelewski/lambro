@@ -1,7 +1,7 @@
 import React from 'react';
 
 require("styles/Coin.scss");
-const img = require('../images/coins.svg');
+const img = require('images/coins.svg');
 
 
 export default function({ layout = 'default', children }) {

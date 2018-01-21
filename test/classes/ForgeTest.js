@@ -1,4 +1,4 @@
-import Forge from '../../src/Forge';
+import Forge from 'classes/Forge';
 
 describe('Forge', function () {
 

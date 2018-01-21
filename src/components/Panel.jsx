@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { resetGame } from "../actions";
+import { resetGame } from "actions";
 
-const gear = require('../images/gear-white.svg');
-const arrow = require('../images/arrow-white.svg');
+const gear = require('images/gear-white.svg');
+const arrow = require('images/arrow-white.svg');
 
 require("styles/Panel.scss");
 

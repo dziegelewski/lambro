@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { useItem, sellItem } from '../actions';
+import { useItem, sellItem } from 'actions';
 
 require('styles/Inventory.scss');
 
-import Item from './Item.jsx';
-import { MAX_PACK, potion } from '../consts';
+import Item from 'components/Item.jsx';
+import { MAX_PACK, potion } from 'consts';
 
 class Inventory extends Component {
 	render() {

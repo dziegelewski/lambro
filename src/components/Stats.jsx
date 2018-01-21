@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 require('styles/Stats.scss');
 
-import Lifebar from './Lifebar.jsx';
+import Lifebar from 'components/Lifebar.jsx';
 
 
 class Stats extends Component {

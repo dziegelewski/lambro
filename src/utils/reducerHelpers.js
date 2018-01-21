@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
-import Forge from './Forge';
-import { startingState, melee, shield, mercenaries, potion, MAX_PACK } from './consts';
-import { aboveZero, nonNegative } from './helpers';
+import Forge from 'classes/Forge';
+import { startingState, melee, shield, mercenaries, potion, MAX_PACK } from 'consts';
+import { aboveZero, nonNegative } from 'utils/helpers';
 
 export const emptyItem = { stat: 0 };
 
@@ -130,9 +130,7 @@ function heroGotHurt(state, damage) {
 
 		const heroNewLife = nonNegative(hero.life - damage);
 		const isHeroGotKilled = !heroNewLife;
-
-		console.log({ damage })
-
+		
 		return {
 			...state,
 			hero: {

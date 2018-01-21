@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { hireMercenary } from "../actions";
+import { hireMercenary } from "actions";
 
 require("styles/Tavern.scss");
 
-import Mercenary from "./Mercenary.jsx";
-import Coin from "./Coin.jsx";
+import Mercenary from "components/Mercenary.jsx";
+import Coin from "components/Coin.jsx";
 
 class Tavern extends Component {
 	render() {

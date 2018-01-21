@@ -4,8 +4,8 @@ import {
 	melee,
 	shield,
 	potion
-} from "./consts";
-import { Wearable, Potion } from "./Item";
+} from "consts";
+import { Wearable, Potion } from "classes/Item";
 import random from "lodash/random";
 import times from "lodash/times";
 

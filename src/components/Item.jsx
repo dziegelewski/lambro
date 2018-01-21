@@ -5,9 +5,9 @@ import range from "lodash/range";
 require("styles/Item.scss");
 
 let icons = {
-	melee: range(0, 6).map(index => require(`../images/melee${index}.svg`)),
-	shield: range(0, 3).map(index => require(`../images/shield${index}.svg`)),
-	potion: [0].map(index => require(`../images/potion${index}.svg`))
+	melee: range(0, 6).map(index => require(`images/melee${index}.svg`)),
+	shield: range(0, 3).map(index => require(`images/shield${index}.svg`)),
+	potion: [0].map(index => require(`images/potion${index}.svg`))
 };
 
 class Item extends Component {
