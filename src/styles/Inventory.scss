@@ -2,9 +2,19 @@
 
 .inventory {
 
+	&__space-filled {
+		&--full {
+			@include alert;
+		}
+	}
+
 	&__items {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+
+		@media (min-width: $breakpoint1) {
+			justify-content: flex-start;
+		}
 	}
 }

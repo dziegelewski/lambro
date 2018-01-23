@@ -16,13 +16,16 @@ class Inventory extends Component {
 		}
 
 		const spaceFilled = this.props.inventory.length;
-		const spaceLeft = MAX_PACK;
+		const maxSpace = MAX_PACK;
+		const isInventoryFull = spaceFilled === maxSpace;
+
+		const spaceFilledClassName = 'inventory__space-filled ' + (isInventoryFull ? 'inventory__space-filled--full' : '');
 		const listOfItems = this.mapItems();
 
 	return (
 		<div className="inventory">
 			<h2>Lambro's inventory</h2>
-			<p>Filled space: { spaceFilled } / { spaceLeft }</p>
+			<p className={spaceFilledClassName}>Filled space: { spaceFilled } / { maxSpace }</p>
 			<div className="inventory__items">
 					{ listOfItems }
 					<div className="item item--flex" />

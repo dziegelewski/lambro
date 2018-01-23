@@ -27,7 +27,7 @@ class Enemy extends Component {
 
 
 
-				<h1>{ enemyLife } / { enemyMaxLife }</h1>
+				<h2>{ enemyLife } / { enemyMaxLife }</h2>
 			</button>
 		)
 	}

@@ -41,7 +41,7 @@ class Forge {
 	}
 
 	willSomethingBeCrafted() {
-		return random(1, 3) === 1;
+		return random(1, 5) === 1;
 	}
 
 	whatWillBeCrafted() {

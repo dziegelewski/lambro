@@ -1,8 +1,11 @@
 import React from 'react';
 
+require('styles/Copyright.scss');
+
+
 export default function Copyright() {
 	return (
-    	<div>
+    	<div className="copyright">
 	  	Icons made by&nbsp;
 
 	  	<a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a>,&nbsp;

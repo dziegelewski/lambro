@@ -1,6 +1,6 @@
-import helpers, { emptyItem }  from '../../src/reducerHelpers';
-import { mercenaries }  from '../../src/consts';
-import Forge  from '../../src/Forge';
+import helpers, { emptyItem }  from 'utils/reducerHelpers';
+import { mercenaries }  from 'consts';
+import Forge  from 'classes/Forge';
 
 let state = {};
 
@@ -188,22 +188,4 @@ describe('reducerHelpers', function () {
 
 		})
 	})
-
-	describe('#getMercenariesTotalAttack()', () => {
-
-		const { getMercenariesTotalAttack } = helpers;
-
-		it('should return correct result', () => {
-			let expectedResult;
-			let totalAttack;
-
-			state.mercenariesNumber = [10, 5, 1];
-			expectedResult = 10 * 3 + 5 * 10 + 1 * 50;
-			totalAttack = getMercenariesTotalAttack(state);
-
-			totalAttack.should.equal(expectedResult)
-			
-		})
-	})
-
 })

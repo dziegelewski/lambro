@@ -9,15 +9,17 @@
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0;
+	margin-bottom: -1px;
+	margin-right: -1px;
 	transition: $transition-for-hover;
 	padding: #{$size*0.075} 0;
-	border: 1px solid $light;
+	border: 1px solid $dark;
 	box-sizing: border-box;
 
 
 	&--used {
 		border: 4px solid $special;
-
+		z-index: 1;
 	}
 
 	&__image {

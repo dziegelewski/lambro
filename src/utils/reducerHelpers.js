@@ -42,8 +42,8 @@ function nextRound(state) {
 function powerUpEnemy(state) {
 	let { enemy } = state;
 
-	const increaseMaxLife = value => Math.floor(value * 1.3);
-	const increaseDamage = value => Math.floor(value * 1.2);
+	const increaseMaxLife = value => Math.floor(value * 1.5);
+	const increaseDamage = value => Math.floor(value * 1.5);
 
 	const increasedLife = increaseMaxLife(enemy.maxLife);
 	const increasedDamage = increaseDamage(enemy.damage);

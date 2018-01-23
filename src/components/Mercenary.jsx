@@ -11,7 +11,6 @@ export default function Mercenary(props) {
 
 	let portrait = require(`../images/mercenary${id}.svg`);
 	const className = 'mercenary ' + onOffClass('mercenary', isOn);
-	console.log(className)
  
 	return (
 
