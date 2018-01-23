@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { onOffClass } from 'utils/helpers';
-
+import { MELEE_RANKS, SHIELDS_RANKS } from 'consts';
 
 import range from "lodash/range";
 
 require("styles/Item.scss");
 
 let icons = {
-	melee: range(0, 6).map(index => require(`images/melee${index}.svg`)),
-	shield: range(0, 3).map(index => require(`images/shield${index}.svg`)),
+	melee: range(0, MELEE_RANKS + 1).map(index => require(`images/melee${index}.svg`)),
+	shield: range(0, SHIELDS_RANKS + 1).map(index => require(`images/shield${index}.svg`)),
 	potion: [0].map(index => require(`images/potion${index}.svg`))
 };
 

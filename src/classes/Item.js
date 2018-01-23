@@ -1,4 +1,4 @@
-import { potion } from 'consts';
+import { melee, shield, potion, SHIELDS_RANKS, MELEE_RANKS } from 'consts';
 
 export class Item {
 	constructor(id, stat, options) {
@@ -27,11 +27,28 @@ export class Wearable extends Item {
 	}
 
 	grantRank() {
-		return Math.floor(this.stat/4.5);
+		const calculatedRank = Math.floor(Math.sqrt(this.stat, 2)) - 1;
+		return Math.min(this.maxRank, calculatedRank);
 	}
 
 	calculatePrice() {
 		return Math.floor(Math.pow(this.stat, 1.5))
+	}
+
+	get maxRank() {
+		switch(this.type) {
+			case melee:
+			return MELEE_RANKS;
+			break;
+
+			case shield:
+			return SHIELDS_RANKS;
+			break;
+
+			default:
+			return 0;
+			break;
+		}
 	}
 }
 

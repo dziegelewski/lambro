@@ -6,6 +6,9 @@ export const potion = 'potion';
 export const MAX_PACK = 24;
 export const FORGE_STARTING_MASTERY = 1;
 
+export const MELEE_RANKS = 7;
+export const SHIELDS_RANKS = 3;
+
 export const mercenaries = [
 	{
 		id: 0,
