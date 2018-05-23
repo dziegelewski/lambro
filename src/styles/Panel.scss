@@ -72,7 +72,38 @@
 	}
 
 	&--expanded {
-		padding: 1em 1.5em;
+		width: 100vw;
+		height: 100vh;
+		background: white;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		z-index: 1;
+	}
+
+	&__inner {
+		max-width: 600px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	&__option	{
+		@include clean-button;
+		color: black;
+		display: block;
+		text-decoration: none;
+		margin: .5em 0;
+		cursor: pointer;
+		z-index: 20;
+
+		&:hover,
+		&:active {
+			text-decoration: underline;
+			color: $red;
+		}
 	}
 
 }

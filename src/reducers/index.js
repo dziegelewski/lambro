@@ -12,7 +12,6 @@ import Forge from "classes/Forge";
 const { stateWrapper } = helpers;
 
 function useHelper(state, { type, payload }) {
-
 	switch (type) {
 		default:
 			return state;

@@ -8,7 +8,6 @@ import Enemy from "components/Enemy.jsx";
 import Tavern from "components/Tavern.jsx";
 import Inventory from "components/Inventory.jsx";
 import Stats from "components/Stats.jsx";
-import Copyright from "components/Copyright.jsx";
 
 class App extends React.Component {
   render() {
@@ -25,10 +24,6 @@ class App extends React.Component {
           <div className="app__column">
             <Inventory />
           </div>
-        </div>
-
-        <div className="app__row">
-            <Copyright />
         </div>
       
         <Panel />

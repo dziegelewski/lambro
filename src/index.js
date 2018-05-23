@@ -2,20 +2,25 @@ import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import gameManager from 'utils/gameManager';
-
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from 'reducers';
+import App from 'components/App';
+import { wait } from 'utils/helpers';
+
 const store = createStore(reducers);
 
-import App from 'components/App';
 const container = document.getElementById('app');
 
-ReactDOM.render(
-	<Provider store={store}>
-		<App/>
-	</Provider>,
-	container
-);
+wait(1500)
+.then(() => {
 
-gameManager(store);
+	ReactDOM.render(
+		<Provider store={store}>
+			<App/>
+		</Provider>,
+		container
+	);
+
+	gameManager(store);
+})

@@ -5,6 +5,7 @@ import {
 	shield,
 	potion
 } from "consts";
+import { chances } from 'utils/helpers';
 import { Wearable, Potion } from "classes/Item";
 import random from "lodash/random";
 import times from "lodash/times";
@@ -41,15 +42,15 @@ class Forge {
 	}
 
 	willSomethingBeCrafted() {
-		return random(1, 5) === 1;
+		return chances(1 / 5);
 	}
 
 	whatWillBeCrafted() {
-		const supertype = random(1, 3) === 1 ? potion : wearable;
+		const supertype = chances(1 / 3) ? potion : wearable;
 		let type;
 
 		if (supertype === wearable) {
-			type = random(1, 2) === 1 ? melee : shield;
+			type = chances(1 / 2) ? melee : shield;
 		} else {
 			type = potion;
 		}
