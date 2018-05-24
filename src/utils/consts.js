@@ -30,7 +30,7 @@ export const mercenaries = [
 		cost: 5000,
 		attack: 100
 	}
-]
+];
 
 export const startingState = {
 		round: 1,

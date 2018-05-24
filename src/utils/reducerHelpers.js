@@ -1,11 +1,11 @@
 import cloneDeep from 'lodash/cloneDeep';
 import Forge from 'classes/Forge';
-import { startingState, melee, shield, mercenaries, potion, MAX_PACK } from 'consts';
+import { startingState, melee, shield, mercenaries, potion, MAX_PACK, FORGE_STARTING_MASTERY } from 'consts';
 import { aboveZero, nonNegative } from 'utils/helpers';
 
 export const emptyItem = { stat: 0 };
 
-function stateWrapper(state) {
+export function stateWrapper(state) {
 	const attack = getHeroDamage(state) + getMercenariesTotalAttack(state);
 	const defense = getHeroDefense(state);
 	const potionsEnabled = canPotionBeUsed(state);
@@ -21,14 +21,15 @@ function stateWrapper(state) {
 }
 
 
-function produceStartingState() {
+export function produceStartingState() {
 	return {
 		...cloneDeep(startingState),
+		_forge: new Forge(FORGE_STARTING_MASTERY),
 		mercenariesNumber: cloneDeep(mercenaries).map(() => 0)
 	}
 }
 
-function nextRound(state) {
+export function nextRound(state) {
 
 	state = powerUpEnemy(state);
 	state = healHero(state, { healing: 9999, isRegenerating: true});
@@ -39,7 +40,7 @@ function nextRound(state) {
 	};
 }
 
-function powerUpEnemy(state) {
+export function powerUpEnemy(state) {
 	let { enemy } = state;
 
 	const increaseMaxLife = value => Math.floor(value * 1.5);
@@ -60,7 +61,7 @@ function powerUpEnemy(state) {
 	}
 }
 
-function healHero(state, { healing, isRegenerating = false }) {
+export function healHero(state, { healing, isRegenerating = false }) {
 	const { hero } = state;
 	const { maxLife, isDead } = hero;
 
@@ -93,19 +94,19 @@ function healHero(state, { healing, isRegenerating = false }) {
 	}
 }
 
-function isHeroFullyHealed(state) {
+export function isHeroFullyHealed(state) {
 	return state.hero.life === state.hero.maxLife;
 }
 
-function isHeroDead(state) {
+export function isHeroDead(state) {
 	return state.hero.isDead;
 }
 
-function onHeroStrike(state) {
+export function onHeroStrike(state) {
 		const { hero, enemy, attack } = state;
 
 		if (hero.isDead) {
-			return state
+			return state;
 		}
 
 		const heroDamage = attack;
@@ -114,16 +115,16 @@ function onHeroStrike(state) {
 		const enemyDamage = enemy.damage;
 		state = heroGotHurt(state, enemyDamage)
 
-		const isItemObtained = Forge.willSomethingBeCrafted();
+		const isItemObtained = forge(state).willSomethingBeCrafted();
 
 		if (isItemObtained) {
-			state = addRandomItemToInventory(state)
+			state = addRandomItemToInventory(state);
 		}
 
 		return state;
 	}
 
-function heroGotHurt(state, damage) {
+export function heroGotHurt(state, damage) {
 		const { hero, defense } = state;
 
 		damage = aboveZero(damage - defense);
@@ -141,7 +142,7 @@ function heroGotHurt(state, damage) {
 		}
 }
 
-function enemyGotHurt(state, damage) {
+export function enemyGotHurt(state, damage) {
 		const { enemy } = state;
 
 		const enemyNewLife = nonNegative(enemy.life - damage);
@@ -160,19 +161,19 @@ function enemyGotHurt(state, damage) {
 }
 
 
-function getHeroDamage(state) {
+export function getHeroDamage(state) {
 	const baseDamage = state.hero.attack;
 	const itemDamage = getActiveItem(state, melee).stat;
 	return baseDamage + itemDamage;
 }
 
-function getHeroDefense(state) {
+export function getHeroDefense(state) {
 	const baseDefense = state.hero.defense;
 	const itemDefense = getActiveItem(state, shield).stat;
 	return baseDefense + itemDefense;
 }
 
-function hireMercenary(state, mercenaryIndex) {
+export function hireMercenary(state, mercenaryIndex) {
 	const mercenaryCost = mercenaries[mercenaryIndex].cost;
 
 	if (hasEnoughMoney(state, mercenaryCost)) {
@@ -183,17 +184,17 @@ function hireMercenary(state, mercenaryIndex) {
 	return state;
 }
 
-function getMercenariesTotalAttack(state) {
+export function getMercenariesTotalAttack(state) {
 	return mercenaries.reduce((total, mercenaryType) => {
 		return total + (state.mercenariesNumber[mercenaryType.id] * mercenaryType.attack)
 	}, 0)
 }
 		
 
-function useItem(state, item) {
+export function useItem(state, item) {
 	const { type } = item;
 	if (item.isWearable) {
-		let activeItem
+		let activeItem;
 
 		if (hasActiveItem(state, type)) {
 			activeItem = getActiveItem(state, type);
@@ -211,7 +212,7 @@ function useItem(state, item) {
 	return state;
 }
 
-function drinkPotion(state, item) {
+export function drinkPotion(state, item) {
 		if (!canPotionBeUsed(state)) return state;
 
 		const healing = item.stat
@@ -220,20 +221,20 @@ function drinkPotion(state, item) {
 		return state;
 }
 
-function canPotionBeUsed(state) {
+export function canPotionBeUsed(state) {
 	return !isHeroDead(state) && !isHeroFullyHealed(state);
 }
 
-function getActiveItem(state, itemType) {
-		return state.inventory.find(({ isUsed, type }) => isUsed === true && type === itemType ) || emptyItem
+export function getActiveItem(state, itemType) {
+		return state.inventory.find(({ isUsed, type }) => isUsed === true && type === itemType ) || emptyItem;
 }
 
-function hasActiveItem(state, itemType) {
+export function hasActiveItem(state, itemType) {
 	return getActiveItem(state, itemType) !== emptyItem;
 }
 
 
-function putItemOn(state, item) {
+export function putItemOn(state, item) {
 	const { id, type } = item;
 	return {...state,
 		inventory: state.inventory.map(inventoryItem => {
@@ -245,7 +246,7 @@ function putItemOn(state, item) {
 	}
 }
 
-function putItemOff(state, item) {
+export function putItemOff(state, item) {
 	const { type } = item;
 	return {...state,
 		inventory: state.inventory.map(inventoryItem => {
@@ -257,14 +258,14 @@ function putItemOff(state, item) {
 	}
 }
 
-function removeItem(state, item) {
+export function removeItem(state, item) {
 	const { id } = item;
 	return 	{...state,
 			inventory: state.inventory.filter(inventoryItem => inventoryItem.id !== id)
 		}
 }
 
-function sellItem(state, item) {
+export function sellItem(state, item) {
 
 	if (getActiveItem(state, item.type) === item) {
 		state = putItemOff(state, item);
@@ -277,11 +278,11 @@ function sellItem(state, item) {
 }
 
 
-function isInventoryFull(state) {
+export function isInventoryFull(state) {
 	return state.inventory.length >= MAX_PACK;
 }
 
-function addItemToInventory(state, item) {
+export function addItemToInventory(state, item) {
 	if (isInventoryFull(state)) return state;
 
 	const inventory = [...state.inventory, item];
@@ -289,47 +290,37 @@ function addItemToInventory(state, item) {
 	return {
 		...state,
 		inventory
-	}
+	};
 }
 
-function addRandomItemToInventory(state) {
-	const randomItem = Forge.craft();
+export function addRandomItemToInventory(state) {
+	const randomItem = forge(state).craft();
 	return addItemToInventory(state, randomItem);
 }
 
-function moneyChange(state, amount) {
+export function moneyChange(state, amount) {
 	const { money } = state;
 	return {...state,
 		money: money + amount
 	}
 }
 
-function getMoney(state, amount) {
+export function getMoney(state, amount) {
 	return moneyChange(state, amount);
 }
 
-function payMoney(state, amount) {
+export function payMoney(state, amount) {
 	return moneyChange(state, -amount);
 }
 
-function hasEnoughMoney(state, amount) {
+export function hasEnoughMoney(state, amount) {
 	return state.money >= amount;
 }
 
-
-export default {
-	stateWrapper,
-	produceStartingState,
-	healHero,
-	onHeroStrike,
-	getActiveItem,
-	hasActiveItem,
-	hireMercenary,
-	getMercenariesTotalAttack,
-	nextRound,
-	moneyChange,
-	useItem,
-	putItemOn,
-	putItemOff,
-	sellItem
+export function forge(state) {
+	const forgeNeedsRebuilding = !(state._forge instanceof Forge);
+	if (forgeNeedsRebuilding) {
+		state._forge = Forge.rebuild(state._forge);
+	}
+	return state._forge;
 }

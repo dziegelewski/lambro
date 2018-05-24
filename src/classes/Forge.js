@@ -1,5 +1,4 @@
 import {
-	FORGE_STARTING_MASTERY,
 	wearable,
 	melee,
 	shield,
@@ -14,11 +13,6 @@ class Forge {
 	constructor(craftedByFar) {
 		this.initialCraftedByFar = craftedByFar;
 		this.craftedByFar = craftedByFar;
-		this.buffs = [];
-	}
-
-	startOver() {
-		this.craftedByFar = this.initialCraftedByFar;
 		this.buffs = [];
 	}
 
@@ -70,9 +64,14 @@ class Forge {
 		return new Date().getTime();
 	}
 
+
 	get mastery() {
 		return Math.ceil(this.craftedByFar / 10);
 	}
+
+	static rebuild(forge) {
+		return new Forge(forge.craftedByFar);
+	}
 }
 
-export default new Forge(FORGE_STARTING_MASTERY);
+export default Forge;

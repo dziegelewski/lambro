@@ -4,7 +4,6 @@
 	cursor: pointer;
 	width: 100%;
 
-
 	background: none;
 	border: 0;
 	cursor: pointer;
@@ -15,10 +14,12 @@
 	&__damage-counter {
 		font-size: 2em;
 		animation: .5s pop 1;
-		color: green;
+		color: $special;
 		visibility: hidden;
 		position: absolute;
 		display: inline-block;
+		display: block;
+		text-align: center;
 	}
 
 	@keyframes pop {
@@ -29,8 +30,6 @@
 		to {
 			transform: translateY(-80px);
 			visibility: hidden;
-
-
 		}
 	}
 

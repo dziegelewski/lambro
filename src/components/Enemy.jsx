@@ -38,12 +38,14 @@ class Enemy extends Component {
 
 	emitDamageCounter(damage) {
 		const position = getElementCenter(ReactDOM.findDOMNode(this));
+		const counterSize = 100;
 		const counter = createElementFromHTMLString(`
 			<div
 				class="enemy__damage-counter"
 				style="
-					left: ${position.left}px;
+					width: ${counterSize}px;
 					top: ${position.top}px;
+					left: ${position.left - counterSize / 2}px;
 				"
 			>
 				${damage}
