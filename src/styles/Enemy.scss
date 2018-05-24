@@ -12,19 +12,27 @@
 	overflow: hidden;
 	position: relative;
 
-	// &__damaged {
-	// 	font-size: 2em;
-	// 	position: absolute;
-	// 	bottom: 0;
-	// 	left: 50%;
-	// 	display: none;
-	// 	animation: 1s appear infinite;
-	// }
+	&__damage-counter {
+		font-size: 2em;
+		animation: .5s pop 1;
+		color: green;
+		visibility: hidden;
+		position: absolute;
+		display: inline-block;
+	}
 
-	// @keyframes appear {
-	// 	from { display: block; }
-	// 	to { bottom: 50%; }
-	// }
+	@keyframes pop {
+		from {
+			display: block;
+			visibility: visible;
+		}
+		to {
+			transform: translateY(-80px);
+			visibility: hidden;
+
+
+		}
+	}
 
 	&__image {
 		max-width: 60%;
@@ -83,6 +91,5 @@
 			
 		}
 	}
-
 
 }

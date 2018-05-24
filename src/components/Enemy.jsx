@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { craftItem, strike, moneyChange } from 'actions';
-// import Bricks from './Bricks.jsx';
+import { getElementCenter, appendToBody, createElementFromHTMLString, removeThis } from 'utils/dom';
  
 import 'styles/Enemy.scss';
 
@@ -13,7 +14,6 @@ class Enemy extends Component {
 
 		const enemyLife = this.props.life;
 		const enemyMaxLife = this.props.maxLife;
-		// const enemyLifeRatio = enemyLife / enemyMaxLife;
 
 		const hitTheEnemy = () => this.props.strike();
 
@@ -23,20 +23,35 @@ class Enemy extends Component {
 				onClick={ hitTheEnemy }
 			>
 					<img src={ castleImage } className="enemy__image" />
-				{/* <Bricks percentageLife={ enemyLifeRatio }>				</Bricks> */}
-
-
 
 				<h2>{ enemyLife } / { enemyMaxLife }</h2>
 			</button>
 		)
 	}
 
-	// componentWillReceiveProps(nextProps) {
-	// 	this.damaged = this.props.life - nextProps.life;
-	// 	this.damageCounter.classList.remove('enemy__damaged');
-	// 	this.damageCounter.classList.add('enemy__damaged');
-	// }
+	componentWillReceiveProps(nextProps) {
+		const damaged = this.props.life - nextProps.life;
+		if (damaged > 0) {
+			this.emitDamageCounter(damaged);
+		}
+	}
+
+	emitDamageCounter(damage) {
+		const position = getElementCenter(ReactDOM.findDOMNode(this));
+		const counter = createElementFromHTMLString(`
+			<div
+				class="enemy__damage-counter"
+				style="
+					left: ${position.left}px;
+					top: ${position.top}px;
+				"
+			>
+				${damage}
+			</div>
+		`);
+		counter.addEventListener('animationend', removeThis);
+		appendToBody(counter);
+	}
 }
 
 function mapStateToProps({ enemy: { life, maxLife } }) {

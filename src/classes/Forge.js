@@ -25,7 +25,7 @@ class Forge {
 	craft(itemType, options) {
 		this.craftedByFar++;
 		const type = itemType || this.whatWillBeCrafted();
-		const id = this.nextItemId;
+		const id = this.generateItemId();
 		let stat;
 
 		if (type === potion) {
@@ -66,12 +66,12 @@ class Forge {
 		return Math.floor(random(10, 30) * this.mastery / 10);
 	}
 
-	get mastery() {
-		return Math.ceil(this.craftedByFar / 10);
+	generateItemId() {
+		return new Date().getTime();
 	}
 
-	get nextItemId() {
-		return this.craftedByFar;
+	get mastery() {
+		return Math.ceil(this.craftedByFar / 10);
 	}
 }
 
