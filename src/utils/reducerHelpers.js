@@ -3,7 +3,7 @@ import Forge from 'classes/Forge';
 import { startingState, melee, shield, mercenaries, potion, MAX_PACK, FORGE_STARTING_MASTERY } from 'consts';
 import { aboveZero, nonNegative } from 'utils/helpers';
 
-export const emptyItem = { stat: 0 };
+export const emptyItem = { stat: 1 };
 
 export function stateWrapper(state) {
 	const attack = getHeroDamage(state) + getMercenariesTotalAttack(state);
@@ -31,6 +31,7 @@ export function produceStartingState() {
 
 export function nextRound(state) {
 
+	state.enemy.isDead = false;
 	state = powerUpEnemy(state);
 	state = healHero(state, { healing: 9999, isRegenerating: true});
 
@@ -44,7 +45,7 @@ export function powerUpEnemy(state) {
 	let { enemy } = state;
 
 	const increaseMaxLife = value => Math.floor(value * 1.5);
-	const increaseDamage = value => Math.floor(value * 1.5);
+	const increaseDamage = value => Math.floor(value * 1.2);
 
 	const increasedLife = increaseMaxLife(enemy.maxLife);
 	const increasedDamage = increaseDamage(enemy.damage);
@@ -105,7 +106,7 @@ export function isHeroDead(state) {
 export function onHeroStrike(state) {
 		const { hero, enemy, attack } = state;
 
-		if (hero.isDead) {
+		if (hero.isDead || enemy.isDead) {
 			return state;
 		}
 
@@ -149,10 +150,10 @@ export function enemyGotHurt(state, damage) {
 		const isEnemyGotKilled = !enemyNewLife;
 
 		if (isEnemyGotKilled) {
-			state = nextRound(state);
-		} else {
-			state.enemy.life = enemyNewLife;
+			state.enemy.isDead = true;
 		}
+		
+		state.enemy.life = enemyNewLife;
 
 		const earnedMoney = damage;
 		state = getMoney(state, earnedMoney)

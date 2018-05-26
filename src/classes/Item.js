@@ -1,4 +1,6 @@
 import { melee, shield, potion, SHIELDS_RANKS, MELEE_RANKS } from 'consts';
+import { minus, notBiggerThan, aboveZero, toPowerOf } from 'utils/functional';
+import flow from 'lodash/flow';
 
 export class Item {
 	constructor(id, stat, options) {
@@ -27,12 +29,20 @@ export class Wearable extends Item {
 	}
 
 	grantRank() {
-		const calculatedRank = Math.floor(Math.sqrt(this.stat, 2)) - 1;
-		return Math.min(this.maxRank, calculatedRank);
+		return flow(
+			Math.sqrt,
+			Math.floor,
+			minus(2),
+			aboveZero,
+			notBiggerThan(this.maxRank)
+		)(this.stat);
 	}
 
 	calculatePrice() {
-		return Math.floor(Math.pow(this.stat, 1.5))
+		return flow(
+			toPowerOf(1.5),
+			Math.floor,
+		)(this.stat);
 	}
 
 	get maxRank() {
@@ -46,7 +56,7 @@ export class Wearable extends Item {
 			break;
 
 			default:
-			return 0;
+			return 1;
 			break;
 		}
 	}
@@ -56,7 +66,7 @@ export class Wearable extends Item {
 export class Potion extends Item {
 	constructor(id, stat = 15, options = {}) {
 		super(id, stat, options);
-		this.rank = 0;
+		this.rank = 1;
 		this.type = potion;
 		this.isWearable = false;
 		this.price = 0;

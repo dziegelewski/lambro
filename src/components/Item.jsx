@@ -6,21 +6,28 @@ import range from "lodash/range";
 
 require("styles/Item.scss");
 
-let icons = {
-	melee: range(0, MELEE_RANKS + 1).map(index => require(`images/melee${index}.svg`)),
-	shield: range(0, SHIELDS_RANKS + 1).map(index => require(`images/shield${index}.svg`)),
-	potion: [0].map(index => require(`images/potion${index}.svg`))
-};
+const emptyFn = function() {};
 
 class Item extends Component {
 	render() {
-		const { params, isOn, onClick, onContextMenu } = this.props;
+		const {
+			isOn,
+			onClick = emptyFn,
+			onContextMenu = emptyFn,
+			params: {
+				type = 'empty',
+				rank,
+				stat = 0,
+				isUsed = false,
+			} = {},
+			isEmpty = false,
+		} = this.props;
 
-		const { type, rank, stat = 0, isUsed = false } = params;
+
 
 		const figureClass = `item item--${type} ` + (isUsed ? "item--used" : "") + onOffClass(' item', isOn);
 		const captionClass = `item__caption item__caption--${type}`;
-		const pictureSrc = icons[type][rank];
+		const pictureSrc = isEmpty ? require(`images/shield2.svg`) :  require(`images/${type}${rank}.svg`);
 
 		return (
 			<figure

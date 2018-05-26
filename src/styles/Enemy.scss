@@ -12,7 +12,6 @@
 	position: relative;
 
 	&__damage-counter {
-		font-size: 2em;
 		animation: .5s pop 1;
 		color: $special;
 		visibility: hidden;
@@ -20,6 +19,11 @@
 		display: inline-block;
 		display: block;
 		text-align: center;
+		font-weight: bold;
+		@include noselect;
+	
+		font-size: 30px;
+		font-size: calc(20px + var(--enlarge-font-size, 10px));
 	}
 
 	@keyframes pop {
@@ -33,62 +37,66 @@
 		}
 	}
 
+	overflow: hidden;
+
 	&__image {
 		max-width: 60%;
 	}
 
-	&__bricks {
-		box-sizing: border-box;
-		position: relative;
-		width: 100%;
-
+	&--next &__image {
+		animation: into 3.5s linear;
+		animation-timing-function: ease-in;
 	}
 
-	&__bricks-row {
-		box-sizing: border-box;
-		position: absolute;
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		padding-left: 0 1em;
-
-
-		&:nth-child(1) {
-			// left
-			left: 0;
-			transform: rotate(90deg);
-			transform-origin: bottom left;	
-		}
-		&:nth-child(2) {
-			// bottom
-			bottom: 0;
-		}
-		&:nth-child(3) {
-			// right
-			right: 0;
-			top: 0;
-			transform: rotate(270deg);
-			transform-origin: bottom right;	
-			// flex-direction: row-reverse;			
-		}
-		&:nth-child(4) {
-			// top
-			top: 0;
-			flex-direction: row-reverse;
+	@keyframes into {
+		70%,
+		71%
+		{
+			transform: scale(17.5) translateY(25px);
 		}
 
-	}
-
-	&__brick {
-		height: 20px;
-		flex: 1;
-		margin: 0 5px;
-		background: $red;
-
-		&--destroyed {
+		71% {
 			visibility: hidden;
-			
 		}
-	}
 
+		72% {
+			visibility: hidden;
+			transform: scale(0.01);
+		}
+
+		73% {
+			visibility: visible;
+		}
+
+		100% {
+			transform: scale(1);
+		}
+
+	}
+}
+
+.enemy-life {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 20px;
+	margin: 10px 0;
+
+	div {
+		width: 7px;
+		height: 5px;
+		border-radius: 50%;
+		margin: 0 10px;
+		background-color: $red;
+	}
+}
+
+.enemy-number {
+	position: absolute;
+	top: 5%;
+	right: 10%;
+	width: auto;
+	color: $red;
+	font-weight: bold;
+	font-size: 30px;
 }

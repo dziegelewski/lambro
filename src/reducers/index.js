@@ -4,7 +4,8 @@ import {
 	HIRE_MERCENARY,
 	REGENERATE,
 	USE_ITEM,
-	SELL_ITEM
+	SELL_ITEM,
+	NEXT_ROUND
 } from "actions";
 
 import {
@@ -14,7 +15,8 @@ import {
 	hireMercenary,
 	useItem,
 	sellItem,
-	stateWrapper
+	stateWrapper,
+	nextRound
 } from "utils/reducerHelpers";
 
 function useHelper(state, { type, payload }) {
@@ -30,6 +32,9 @@ function useHelper(state, { type, payload }) {
 
 		case STRIKE:
 			return onHeroStrike(state);
+
+		case NEXT_ROUND:
+			return nextRound(state);
 
 		case HIRE_MERCENARY:
 			return hireMercenary(state, payload);

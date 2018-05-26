@@ -13,11 +13,12 @@ class Stats extends Component {
 
 		return(
 			<div className="stats">
+			{/*
 				<div className="stats__numbers">
-					<span className="stats__stat">Fort: { round }</span>
 					<span className="stats__stat">Total attack: { attack }</span>
 					<span className="stats__stat">Total defense: { defense }</span>
 				</div>
+			*/}
 
 				<Lifebar percentageLife={percentageLife} isDead={isDead} />
 

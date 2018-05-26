@@ -37,6 +37,12 @@ export function resetGame() {
 	};
 }
 
+export function nextRound() {
+	return {
+		type: NEXT_ROUND
+	};
+}
+
 export function useItem(item) {
 	return {
 		type: USE_ITEM,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useItem, sellItem } from 'actions';
+import times from 'lodash/times';
 
 require('styles/Inventory.scss');
 
@@ -15,19 +16,23 @@ class Inventory extends Component {
 			return <div/>
 		}
 
-		const spaceFilled = this.props.inventory.length;
 		const maxSpace = MAX_PACK;
-		const isInventoryFull = spaceFilled === maxSpace;
+		const filledSpace = this.props.inventory.length;
+		const freeSpace = maxSpace - filledSpace;
 
-		const spaceFilledClassName = 'inventory__space-filled ' + (isInventoryFull ? 'inventory__space-filled--full' : '');
+		const isInventoryFull = filledSpace === maxSpace;
+
+		const filledSpaceClassName = 'inventory__space-filled ' + (isInventoryFull ? 'inventory__space-filled--full' : '');
 		const listOfItems = this.mapItems();
+		const listOfFreeSpaces = this.mapFreeSpaces(freeSpace);
 
 	return (
 		<div className="inventory">
 			<h2>Lambro's inventory</h2>
-			<p className={spaceFilledClassName}>Filled space: { spaceFilled } / { maxSpace }</p>
+			<p className={filledSpaceClassName}>Filled space: { filledSpace } / { maxSpace }</p>
 			<div className="inventory__items">
 					{ listOfItems }
+					{ listOfFreeSpaces }
 					<div className="item item--flex" />
 					<div className="item item--flex" />
 					<div className="item item--flex" />
@@ -61,7 +66,10 @@ class Inventory extends Component {
 			})
 		)
 	}
-	
+
+	mapFreeSpaces(freeSpace) {
+		return times(freeSpace, (index) => <Item key={index} isEmpty /> );
+	}
 }
 
 function mapStateToProps({ inventory, potionsEnabled  }) {

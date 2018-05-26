@@ -22,7 +22,8 @@
   "keywords": [],
   "author": "Your name here",
   "devDependencies": {
-    "babel-core": "^6.0.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.47",
+    "babel-core": "7.0.0",
     "babel-eslint": "^6.0.0",
     "babel-loader": "^6.0.0",
     "babel-polyfill": "^6.3.14",

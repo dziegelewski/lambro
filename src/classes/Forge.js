@@ -10,14 +10,13 @@ import random from "lodash/random";
 import times from "lodash/times";
 
 class Forge {
-	constructor(craftedByFar) {
-		this.initialCraftedByFar = craftedByFar;
-		this.craftedByFar = craftedByFar;
+	constructor(mastery) {
+		this.mastery = mastery;
 		this.buffs = [];
 	}
 
 	craft(itemType, options) {
-		this.craftedByFar++;
+		this.mastery++;
 		const type = itemType || this.whatWillBeCrafted();
 		const id = this.generateItemId();
 		let stat;
@@ -36,11 +35,11 @@ class Forge {
 	}
 
 	willSomethingBeCrafted() {
-		return chances(1 / 5);
+		return chances(1 / 12);
 	}
 
 	whatWillBeCrafted() {
-		const supertype = chances(1 / 3) ? potion : wearable;
+		const supertype = chances(1 / 2) ? potion : wearable;
 		let type;
 
 		if (supertype === wearable) {
@@ -53,11 +52,11 @@ class Forge {
 	}
 
 	calculatePotionStat() {
-		return this.mastery * 30;
+		return this.craftingPower * 30;
 	}
 
 	calculateWearableStat() {
-		return Math.floor(random(10, 30) * this.mastery / 10);
+		return Math.floor(random(10, 30) * this.craftingPower / 5) + 1;
 	}
 
 	generateItemId() {
@@ -65,12 +64,12 @@ class Forge {
 	}
 
 
-	get mastery() {
-		return Math.ceil(this.craftedByFar / 10);
+	get craftingPower() {
+		return Math.ceil(this.mastery / 10);
 	}
 
 	static rebuild(forge) {
-		return new Forge(forge.craftedByFar);
+		return new Forge(forge.mastery);
 	}
 }
 

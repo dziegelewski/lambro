@@ -1,6 +1,6 @@
 import Forge from 'classes/Forge';
 
-describe('Forge', function () {
+describe.skip('Forge', function () {
 
     describe('General', function() {
         it('should has gettable mastery level which is a number', function() {
