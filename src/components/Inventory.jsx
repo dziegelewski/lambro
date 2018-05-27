@@ -7,7 +7,7 @@ import times from 'lodash/times';
 require('styles/Inventory.scss');
 
 import Item from 'components/Item.jsx';
-import { MAX_PACK, potion } from 'consts';
+import { potion } from 'consts';
 
 class Inventory extends Component {
 	render() {
@@ -16,7 +16,7 @@ class Inventory extends Component {
 			return <div/>
 		}
 
-		const maxSpace = MAX_PACK;
+		const maxSpace = this.props.maxPack;
 		const filledSpace = this.props.inventory.length;
 		const freeSpace = maxSpace - filledSpace;
 
@@ -93,8 +93,8 @@ class Inventory extends Component {
 	}
 }
 
-function mapStateToProps({ inventory, potionsEnabled, isHeroDead  }) {
-	return { inventory, potionsEnabled, isHeroDead }
+function mapStateToProps({ inventory, potionsEnabled, isHeroDead, maxPack  }) {
+	return { inventory, potionsEnabled, isHeroDead, maxPack }
 }
 
 function mapDispatchToProps(dispatch) {

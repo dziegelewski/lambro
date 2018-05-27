@@ -57,7 +57,7 @@ class Enemy extends Component {
 		const position = getElementCenter(
 			getComponentNode(this)
 		);
-		const counterSize = 100;
+		const counterSize = 500;
 		const counterEnlargeFontSize = Math.sqrt(damage) * 2;
 		const counter = createElementFromHTMLString(`
 			<div

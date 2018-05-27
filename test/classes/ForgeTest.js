@@ -11,7 +11,6 @@ describe('Forge', function () {
 
     describe('craft()', function () {
         const craftedItem = forge.craft();
-        console.log(craftedItem)
 
         it('should be an object', function() {
             expect(craftedItem).to.be.an('object');

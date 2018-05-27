@@ -9,6 +9,8 @@ export const FORGE_STARTING_MASTERY = 1;
 export const MELEE_RANKS = 7;
 export const SHIELDS_RANKS = 3;
 
+// import { Excalibur } from 'utils/artifacts';
+
 export const mercenaries = [
 	{
 		id: 0,
@@ -54,5 +56,7 @@ export const startingState = {
 		money: 0,
 
 		mercenaries,
-		inventory: []
+		inventory: [
+			// Excalibur,
+		]
 }

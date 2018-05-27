@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 import gameManager from 'utils/gameManager';
 import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
-import persistState from 'redux-localstorage';
 import reducers from 'reducers';
 import App from 'components/App';
 import { wait } from 'utils/helpers';
+import persistState from 'redux-localstorage';
 
-const enhancer = compose(persistState());
-const store = createStore(reducers, enhancer);
-
+const store = createStore(reducers, compose(
+	persistState()
+));
 const container = document.getElementById('app');
 
 wait(1000)

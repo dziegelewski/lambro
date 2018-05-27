@@ -8,6 +8,7 @@ import {
 	NEXT_ROUND
 } from "actions";
 
+import stateWrapper from 'utils/reducerWrapper';
 import {
 	produceStartingState,
 	healHero,
@@ -15,7 +16,6 @@ import {
 	hireMercenary,
 	useItem,
 	sellItem,
-	stateWrapper,
 	nextRound
 } from "utils/reducerHelpers";
 

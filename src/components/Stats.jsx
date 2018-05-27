@@ -8,7 +8,7 @@ import Lifebar from 'components/Lifebar.jsx';
 
 class Stats extends Component {
 	render() {
-		const { attack, defense, life, maxLife, isDead, round } = this.props;
+		const { /*attack, defense, round,*/ life, maxLife, isDead } = this.props;
 		const percentageLife = life/maxLife;
 
 		return(

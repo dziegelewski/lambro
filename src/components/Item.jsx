@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { onOffClass } from 'utils/helpers';
-import { MELEE_RANKS, SHIELDS_RANKS } from 'consts';
-
-import range from "lodash/range";
 
 require("styles/Item.scss");
 
@@ -18,16 +15,15 @@ class Item extends Component {
 				type = 'empty',
 				rank,
 				stat = 0,
-				isUsed = false,
+				isUsed = false
 			} = {},
-			isEmpty = false,
+			isEmpty = false
 		} = this.props;
-
-
 
 		const figureClass = `item item--${type} ` + (isUsed ? "item--used" : "") + onOffClass(' item', isOn);
 		const captionClass = `item__caption item__caption--${type}`;
 		const pictureSrc = isEmpty ? require(`images/shield2.svg`) :  require(`images/${type}${rank}.svg`);
+
 
 		return (
 			<figure
@@ -37,7 +33,9 @@ class Item extends Component {
 			>
 				<img className="item__image" src={pictureSrc} alt="Item" />
 
-				<figcaption className={captionClass}>{stat}</figcaption>
+				<figcaption className={captionClass}>
+					{stat}
+				</figcaption>
 			</figure>
 		);
 	}

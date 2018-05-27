@@ -11,3 +11,7 @@ export const aboveZero = value => Math.max(1, value);
 export const toPowerOf = pow => value => value ** pow;
 
 export const pipe = (value, ...functions) => functions.reduce((total, fn) => fn(total), value);
+
+export const oneForEvery = number => value => Math.floor(value / number);
+
+export const multiply = number => value => value * number;
