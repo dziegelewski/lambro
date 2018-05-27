@@ -7,7 +7,7 @@ require("styles/Mercenary.scss");
 
 export default function Mercenary(props) {
 	const { number, isOn, onClick, stats } = props;
-	const { id, name, attack, cost } = stats;
+	const { id, name, /*attack,*/ cost } = stats;
 
 	let portrait = require(`../images/mercenary${id}.svg`);
 	const className = 'mercenary ' + onOffClass('mercenary', isOn);

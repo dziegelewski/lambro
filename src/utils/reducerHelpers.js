@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import Forge from 'classes/Forge';
-import { startingState, melee, shield, potion, FORGE_STARTING_MASTERY } from 'consts';
+import { startingState, melee, shield, potion } from 'consts';
 import mercenaries from 'utils/mercenaries';
 import { aboveZero, nonNegative } from 'utils/helpers';
 // import { Excalibur } from 'utils/artifacts'
@@ -11,7 +11,7 @@ export const emptyItem = { stat: 1 };
 export function produceStartingState() {
 	return {
 		...cloneDeep(startingState),
-		_forge: new Forge(FORGE_STARTING_MASTERY),
+		_forge: new Forge(),
 		mercenaries,
 		inventory: [],
 

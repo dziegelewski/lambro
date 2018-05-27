@@ -18,23 +18,20 @@ class Panel extends Component {
 	}
 
 	render() {
-		return this.state.isExpanded ? this.renderExpanded() : this.renderCollapsed();
-	}
+		const { isExpanded } = this.state;
 
+		if (!isExpanded) {
+			const expand = () => this.setState({ isExpanded: true });
+			return (
+			<div className="panel panel--collapsed" >
+				<button onClick={expand}>
+					<img src={gear} className="panel__icon panel__icon--gear"/>
+				</button>
+			</div>
+			)
 
-	renderCollapsed() {
-		const expand = () => this.setState({ isExpanded: true });
-		return (
-		<div className="panel panel--collapsed" >
-			<button onClick={expand}>
-				<img src={gear} className="panel__icon panel__icon--gear"/>
-			</button>
-		</div>
+		}
 
-		)
-	}
-
-	renderExpanded() {
 		const resetGame = () => this.props.resetGame();
 		const collapse = () => this.setState({ isExpanded: false });
 		const showAboutPage = () => this.setState({ page: 'about' });
@@ -44,30 +41,26 @@ class Panel extends Component {
 			collapse();
 		}
 
-		if (this.state.page === 'about') {
-			return (
-				<div className="panel panel--expanded">
-					<div className="panel__inner">
-
-						<Copyright />
-						<button className="panel__option" onClick={goBack}>Wróć</button>
-					
-					</div>
-				</div>
-				);
-		}
-
-
 
 		return (
 			<div className="panel panel--expanded">
-				<div className="panel__inner">
 
-					<button className="panel__option" onClick={collapse}>Powrót do gry</button>
-					<button className="panel__option" onClick={resetAndCollapse}>Zacznij od nowa</button>
-					<button className="panel__option" onClick={showAboutPage}>O grze</button>
+				{ !this.state.page && 
+					<div className="panel__inner">
+						<button className="panel__option" onClick={collapse}>Resume game</button>
+						<button className="panel__option" onClick={resetAndCollapse}>Start over</button>
+						<button className="panel__option" onClick={showAboutPage}>About</button>
+					</div>
 
-				</div>
+				}
+
+				{ this.state.page === 'about' && 
+					<div className="panel__inner">
+						<Copyright />
+						<button className="panel__option" onClick={goBack}>Go back</button>
+					</div>
+				}
+
 			</div>
 		);
 	}
