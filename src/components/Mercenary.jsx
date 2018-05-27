@@ -16,7 +16,7 @@ export default function Mercenary(props) {
 
 		<button className={className} onClick={onClick}>
 			<img src={portrait} className="mercenary__portrait" alt={name} />
-			<div> {number} | {attack}</div>
+			<div> {number}</div>
 			<div>	<Coin>{cost}</Coin></div>
 		</button>
 

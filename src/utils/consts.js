@@ -3,40 +3,14 @@ export const melee = 'melee';
 export const shield = 'shield';
 export const potion = 'potion';
 
-export const MAX_PACK = 12;
 export const FORGE_STARTING_MASTERY = 1;
 
 export const MELEE_RANKS = 7;
 export const SHIELDS_RANKS = 3;
 
-// import { Excalibur } from 'utils/artifacts';
-
-export const mercenaries = [
-	{
-		id: 0,
-		name: 'warrior',
-		cost: 20,
-		attack: 1
-	},
-
-	{
-		id: 1,
-		name: 'mage',
-		cost: 300,
-		attack: 10
-	},
-
-	{
-		id: 2,
-		name: 'devil',
-		cost: 5000,
-		attack: 100
-	}
-];
-
 export const startingState = {
 		round: 1,
-		score: 0,
+		money: 0,
 
 		hero: {
 			life: 100,
@@ -53,10 +27,4 @@ export const startingState = {
 			isDead: false
 		},
 
-		money: 0,
-
-		mercenaries,
-		inventory: [
-			// Excalibur,
-		]
 }

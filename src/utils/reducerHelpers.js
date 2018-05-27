@@ -1,7 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 import Forge from 'classes/Forge';
-import { startingState, melee, shield, mercenaries, potion, FORGE_STARTING_MASTERY } from 'consts';
+import { startingState, melee, shield, potion, FORGE_STARTING_MASTERY } from 'consts';
+import mercenaries from 'utils/mercenaries';
 import { aboveZero, nonNegative } from 'utils/helpers';
+// import { Excalibur } from 'utils/artifacts'
 
 export const emptyItem = { stat: 1 };
 
@@ -10,7 +12,10 @@ export function produceStartingState() {
 	return {
 		...cloneDeep(startingState),
 		_forge: new Forge(FORGE_STARTING_MASTERY),
-		mercenariesNumber: cloneDeep(mercenaries).map(() => 0)
+		mercenaries,
+		inventory: [],
+
+		mercenariesNumber: mercenaries.map(() => 0)
 	}
 }
 
@@ -80,6 +85,26 @@ export function healHero(state, { healing, isRegenerating = false }) {
 	}
 }
 
+export function resurrectHero(state) {
+	return {
+		...state,
+		hero: {
+			...state.hero,
+			isDead: false
+		}
+	};
+}
+
+export function increaseHeroMaxLife(state, increasment) {
+	return {
+		...state,
+		hero: {
+			...state.hero,
+			maxLife: state.hero.maxLife + increasment
+		}
+	};
+} 
+
 export function isHeroFullyHealed(state) {
 	return state.hero.life === state.hero.maxLife;
 }
@@ -132,6 +157,7 @@ export function enemyGotHurt(state, damage) {
 		const { enemy } = state;
 
 		const enemyNewLife = nonNegative(enemy.life - damage);
+		const actualDamage = (enemy.life - enemyNewLife);
 		const isEnemyGotKilled = !enemyNewLife;
 
 		if (isEnemyGotKilled) {
@@ -140,7 +166,7 @@ export function enemyGotHurt(state, damage) {
 		
 		state.enemy.life = enemyNewLife;
 
-		const earnedMoney = damage;
+		const earnedMoney = Math.round(actualDamage / 10);
 		state = getMoney(state, earnedMoney)
 
 		return state;
@@ -165,7 +191,18 @@ export function hireMercenary(state, mercenaryIndex) {
 	if (hasEnoughMoney(state, mercenaryCost)) {
 		state = payMoney(state, mercenaryCost);
 		state.mercenariesNumber[mercenaryIndex] ++;
+
+		if (mercenaryIs('mage', mercenaryIndex)) {
+			state = increaseHeroMaxLife(state, 33);
+			state = resurrectHero(state);
+		}
+
+		if (mercenaryIs('devil', mercenaryIndex)) {
+			state = enemyGotHurt(state, state.attack * 66);
+		}
 	}
+
+
 
 	return state;
 }
@@ -174,6 +211,10 @@ export function getMercenariesTotalAttack(state) {
 	return mercenaries.reduce((total, mercenaryType) => {
 		return total + (state.mercenariesNumber[mercenaryType.id] * mercenaryType.attack)
 	}, 0)
+}
+
+export function mercenaryIs(expectedName, mercenaryIndex) {
+	return mercenaries[mercenaryIndex].name === expectedName;
 }
 		
 
@@ -203,7 +244,9 @@ export function drinkPotion(state, item) {
 
 		if (item.effect === 'resurrect' && !state.hero.isDead) return state;
 
-		if (item.effect === 'resurrect') state.hero.isDead = false;
+		if (item.effect === 'resurrect') {
+			state = resurrectHero(state);
+		}
 
 		const healing = item.stat
 		state = healHero(state, { healing })

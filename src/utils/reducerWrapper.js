@@ -5,7 +5,7 @@ import {
 	canHealingPotionBeUsed
 } from 'utils/reducerHelpers'
 
-import { mercenaries } from 'consts';
+import mercenaries from 'utils/mercenaries';
 
 import { notBiggerThan, pipe, oneForEvery, multiply } from 'utils/functional';
 

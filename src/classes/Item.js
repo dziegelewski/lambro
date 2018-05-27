@@ -42,7 +42,7 @@ export class Wearable extends Item {
 	calculatePrice() {
 		return pipe(
 			this.stat,
-			toPowerOf(1.5),
+			toPowerOf(1.25),
 			Math.floor,
 		);
 	}
@@ -79,7 +79,7 @@ export class Potion extends Item {
 	}
 
 	grantRank() {
-		return chances(1 / 15) ? 2 : 1;
+		return chances(1 / 8) ? 2 : 1;
 	}
 
 	getEffect() {
