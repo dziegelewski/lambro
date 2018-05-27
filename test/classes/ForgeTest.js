@@ -1,15 +1,16 @@
 import Forge from 'classes/Forge';
 
-describe.skip('Forge', function () {
+const forge = new Forge(3);
 
+describe('Forge', function () {
     describe('General', function() {
         it('should has gettable mastery level which is a number', function() {
-            expect(Forge.mastery).to.be.a('number');
+            expect(forge.mastery).to.be.a('number');
         }) 
     })
 
     describe('craft()', function () {
-        const craftedItem = Forge.craft();
+        const craftedItem = forge.craft();
         console.log(craftedItem)
 
         it('should be an object', function() {
@@ -31,7 +32,7 @@ describe.skip('Forge', function () {
 
     describe('craftMany()', function() {
         const numberOfItemsToCraft = 5;
-        const craftedItems = Forge.craftMany(numberOfItemsToCraft);
+        const craftedItems = forge.craftMany(numberOfItemsToCraft);
 
         it('should return an array', function() {
           expect(craftedItems).to.be.an('array');
@@ -39,22 +40,6 @@ describe.skip('Forge', function () {
 
         it('should return as many items, as set in it\'s argument', function() {
         	expect(craftedItems).to.have.lengthOf(numberOfItemsToCraft);
-        })
-    })
-
-    describe('get nextItemId', function() {
-        const currentNextItemId = Forge.nextItemId;
-        const expectedNextItemItAfterCraft = currentNextItemId + 1;
-
-        it('should be a positive integer', function() {
-            expect(currentNextItemId).to.be.above(0);
-            expect(Number.isInteger(currentNextItemId)).to.be.equal(true);
-        })
-
-        it('should increase after crafting a new item', function() {
-            Forge.craft();
-            const newItemId = Forge.nextItemId
-            expect(newItemId).to.be.equal(expectedNextItemItAfterCraft)
         })
     })
 });

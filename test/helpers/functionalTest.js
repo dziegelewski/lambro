@@ -1,7 +1,8 @@
 import {
 	plus,
 	minus,
-	min,
+	notBiggerThan,
+	toPowerOf
 } from 'utils/functional';
 
 describe('functional', () => {
@@ -28,12 +29,11 @@ describe('functional', () => {
 	});
 
 	describe('toPowerOf', () => {
-		it('is curred Math.pow', () => {
+		it('is curried Math.pow', () => {
 			const toPowerOf4 = toPowerOf(4);
 
 			expect(toPowerOf4(2)).to.be.equal(16);
 		})
 	});
-
 
 });

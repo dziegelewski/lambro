@@ -42,12 +42,13 @@ class Inventory extends Component {
 	}
 
 	mapItems() {
-		const { inventory, potionsEnabled } = this.props;
+		const { inventory } = this.props;
 
 		return (
 			inventory.map(item => {
 
-				const isOn = item.type !== potion || potionsEnabled;
+
+				const isOn = this.isItemOn(item);
 				const useItem = () => this.props.useItem(item);
 				const sellItem = (e) => {
 					e.preventDefault();
@@ -70,10 +71,30 @@ class Inventory extends Component {
 	mapFreeSpaces(freeSpace) {
 		return times(freeSpace, (index) => <Item key={index} isEmpty /> );
 	}
+
+	isItemOn(item) {
+		const { potionsEnabled, isHeroDead } = this.props;
+
+		if (item.type !== potion) {
+			return true;
+		}
+
+		if (item.type === potion) {
+
+			if (item.effect === 'heal') {
+				return potionsEnabled;
+			}
+
+			if (item.effect === 'resurrect')  {
+				return isHeroDead;
+			}
+
+		}
+	}
 }
 
-function mapStateToProps({ inventory, potionsEnabled  }) {
-	return { inventory, potionsEnabled }
+function mapStateToProps({ inventory, potionsEnabled, isHeroDead  }) {
+	return { inventory, potionsEnabled, isHeroDead }
 }
 
 function mapDispatchToProps(dispatch) {

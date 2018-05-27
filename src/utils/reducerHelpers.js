@@ -8,15 +8,17 @@ export const emptyItem = { stat: 1 };
 export function stateWrapper(state) {
 	const attack = getHeroDamage(state) + getMercenariesTotalAttack(state);
 	const defense = getHeroDefense(state);
-	const potionsEnabled = canPotionBeUsed(state);
+	const potionsEnabled = canHealingPotionBeUsed(state);
 	const mercenariesAffordability = mercenaries.map(mercenary => mercenary.cost <= state.money);
+	const isHeroDead = state.hero.isDead;
 
 	return {
 		...state,
 		attack,
 		defense,
 		mercenariesAffordability,
-		potionsEnabled
+		potionsEnabled,
+		isHeroDead,
 	}	
 }
 
@@ -214,7 +216,9 @@ export function useItem(state, item) {
 }
 
 export function drinkPotion(state, item) {
-		if (!canPotionBeUsed(state)) return state;
+		if (item.effect === 'heal' && !canHealingPotionBeUsed(state)) return state;
+
+		if (item.effect === 'resurrect') state.hero.isDead = false;
 
 		const healing = item.stat
 		state = healHero(state, { healing })
@@ -222,7 +226,7 @@ export function drinkPotion(state, item) {
 		return state;
 }
 
-export function canPotionBeUsed(state) {
+export function canHealingPotionBeUsed(state) {
 	return !isHeroDead(state) && !isHeroFullyHealed(state);
 }
 

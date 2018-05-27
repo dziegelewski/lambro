@@ -10,7 +10,7 @@ import random from "lodash/random";
 import times from "lodash/times";
 
 class Forge {
-	constructor(mastery) {
+	constructor(mastery = 1) {
 		this.mastery = mastery;
 		this.buffs = [];
 	}

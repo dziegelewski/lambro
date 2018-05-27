@@ -22,8 +22,8 @@
 		font-weight: bold;
 		@include noselect;
 	
-		font-size: 30px;
-		font-size: calc(20px + var(--enlarge-font-size, 10px));
+		font-size: 20px;
+		font-size: calc(14px + var(--enlarge-font-size, 10px));
 	}
 
 	@keyframes pop {

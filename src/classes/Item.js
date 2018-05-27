@@ -1,6 +1,6 @@
 import { melee, shield, potion, SHIELDS_RANKS, MELEE_RANKS } from 'consts';
-import { minus, notBiggerThan, aboveZero, toPowerOf } from 'utils/functional';
-import flow from 'lodash/flow';
+import { pipe, minus, notBiggerThan, aboveZero, toPowerOf } from 'utils/functional';
+import { chances } from 'utils/helpers';
 
 export class Item {
 	constructor(id, stat, options) {
@@ -29,20 +29,22 @@ export class Wearable extends Item {
 	}
 
 	grantRank() {
-		return flow(
+		return pipe(
+			this.stat,
 			Math.sqrt,
 			Math.floor,
 			minus(2),
 			aboveZero,
 			notBiggerThan(this.maxRank)
-		)(this.stat);
+		);
 	}
 
 	calculatePrice() {
-		return flow(
+		return pipe(
+			this.stat,
 			toPowerOf(1.5),
 			Math.floor,
-		)(this.stat);
+		);
 	}
 
 	get maxRank() {
@@ -66,9 +68,26 @@ export class Wearable extends Item {
 export class Potion extends Item {
 	constructor(id, stat = 15, options = {}) {
 		super(id, stat, options);
-		this.rank = 1;
+		this.rank = this.grantRank();
 		this.type = potion;
 		this.isWearable = false;
 		this.price = 0;
+		this.effect = this.getEffect();
+		if (this.effect === 'resurrect') {
+			this.stat *= 10;
+		}
+	}
+
+	grantRank() {
+		return chances(1 / 15) ? 2 : 1;
+	}
+
+	getEffect() {
+		switch(this.rank) {
+			case 1:
+				return 'heal';
+			case 2:
+				return 'resurrect'
+		}
 	}
 }
